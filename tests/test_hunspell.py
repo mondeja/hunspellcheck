@@ -1,33 +1,42 @@
-"""Tests for hunspell-related utilities of hunspell-checker."""
+"""Tests for hunspell-related utilities of hunspellcheck."""
 
 import contextlib
 import io
+import os
 import types
 import sys
 
 import pytest
 
-from hunspell_checker.hunspell import (
+from hunspellcheck.hunspell import (
     gen_available_dictionaries,
     list_available_dictionaries,
     print_available_dictionaries,
 )
 
-def assert_dictionaries_list(dicts_list):
+def assert_dictionaries_list(dicts_list, full_paths=False):
     assert len(dicts_list) > 0
     for dictname in dicts_list:
         assert dictname
         assert isinstance(dictname, str)
+        if full_paths:
+            assert os.path.isfile(f"{dictname}.dic")
 
 
-def test_gen_available_dictionaries():
-    available_dicts_gen =  gen_available_dictionaries()
+@pytest.mark.parametrize("full_paths", (True, False))
+def test_gen_available_dictionaries(full_paths):
+    available_dicts_gen =  gen_available_dictionaries(full_paths=full_paths)
     assert isinstance(available_dicts_gen, types.GeneratorType)
-    assert_dictionaries_list(list(available_dicts_gen))
+    assert_dictionaries_list(list(available_dicts_gen), full_paths=full_paths)
 
 
-def test_list_available_dictionaries():
-    assert_dictionaries_list(list_available_dictionaries())
+@pytest.mark.parametrize("full_paths", (True, False))
+def test_list_available_dictionaries(full_paths):
+    assert_dictionaries_list(
+        list_available_dictionaries(full_paths=full_paths),
+        full_paths=full_paths
+    )
+
 
 
 @pytest.mark.parametrize("sort", (True, False))
@@ -42,9 +51,14 @@ def test_list_available_dictionaries():
         "io.StringIO",
     ]
 )
-def test_print_available_dictionaries(sort, stream, capsys):
+@pytest.mark.parametrize("full_paths", (True, False))
+def test_print_available_dictionaries(sort, stream, capsys, full_paths):
     _stream = stream()
-    print_available_dictionaries(sort=sort, stream=_stream)
+    print_available_dictionaries(
+        sort=sort,
+        stream=_stream,
+        full_paths=full_paths,
+    )
 
     if isinstance(_stream, type(sys.stdout)):
         stdout = capsys.readouterr().out
@@ -52,7 +66,9 @@ def test_print_available_dictionaries(sort, stream, capsys):
         stdout = _stream.getvalue()
 
     available_dictionaries_list = stdout.splitlines()
-    expected_dictionaries_list = list_available_dictionaries()
+    expected_dictionaries_list = list_available_dictionaries(
+        full_paths=full_paths
+    )
     if sort:
         assert available_dictionaries_list == sorted(expected_dictionaries_list)
     else:

@@ -1,4 +1,4 @@
-# hunspell-checker
+# hunspellcheck
 
 [![PyPI][pypi-version-badge-link]][pypi-link]
 [![Python versions][pypi-pyversions-badge-link]][pypi-link]
@@ -19,7 +19,7 @@ some patterns repeated using hunspell:
 ## Install
 
 ```bash
-pip install hunspell-checker
+pip install hunspellcheck
 ```
 
 ## Documentation
@@ -27,10 +27,10 @@ pip install hunspell-checker
 
 
 
-[pypi-link]: https://pypi.org/project/hunspell-checker
-[pypi-version-badge-link]: https://img.shields.io/pypi/v/hunspell-checker
-[pypi-pyversions-badge-link]: https://img.shields.io/pypi/pyversions/hunspell-checker
-[license-image]: https://img.shields.io/pypi/l/hunspell-checker?color=light-green
-[license-link]: https://github.com/mondeja/hunspell-checker/blob/master/LICENSE
-[tests-image]: https://img.shields.io/github/workflow/status/mondeja/hunspell-checker/CI
-[tests-link]: https://github.com/mondeja/hunspell-checker/actions?query=workflow%3ACI
+[pypi-link]: https://pypi.org/project/hunspellcheck
+[pypi-version-badge-link]: https://img.shields.io/pypi/v/hunspellcheck
+[pypi-pyversions-badge-link]: https://img.shields.io/pypi/pyversions/hunspellcheck
+[license-image]: https://img.shields.io/pypi/l/hunspellcheck?color=light-green
+[license-link]: https://github.com/mondeja/hunspellcheck/blob/master/LICENSE
+[tests-image]: https://img.shields.io/github/workflow/status/mondeja/hunspellcheck/CI
+[tests-link]: https://github.com/mondeja/hunspellcheck/actions?query=workflow%3ACI
