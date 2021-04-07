@@ -17,7 +17,7 @@ from hunspellcheck.hunspell.dictionaries import (
 
 
 @pytest.mark.parametrize("language", (True, False))
-@pytest.mark.parametrize("option", ("-l", "--language"))
+@pytest.mark.parametrize("option", ("-l", "--languages"))
 def test_extend_argument_parser__language(language, option):
     """Test 'language' argument of 'extend_argument_parser' function."""
     parser = argparse.ArgumentParser()
@@ -156,7 +156,7 @@ def test_HunspellDictionaryNegotiatorAction():
     with contextlib.redirect_stderr(stderr), pytest.raises(SystemExit):
         parser.parse_args(["-l", lang_code])
     assert (
-        f"argument -l/--language: invalid choice: '{lang_code}' (choose from '"
+        f"argument -l/--languages: invalid choice: '{lang_code}' (choose from '"
     ) in stderr.getvalue()
 
     # language dictionary by filename

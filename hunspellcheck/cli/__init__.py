@@ -22,7 +22,7 @@ def extend_argument_parser(
     files=True,
     files_kwargs={},
     language=True,
-    language_args=["-l", "--language"],
+    language_args=["-l", "--languages"],
     language_kwargs={},
     negotiate_language=True,
     personal_dict=True,
