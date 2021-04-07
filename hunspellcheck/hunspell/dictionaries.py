@@ -1,4 +1,4 @@
-"""Hunspell related functions."""
+"""Utilities about Hunspell dictionaries."""
 
 import os
 import subprocess
@@ -19,16 +19,16 @@ def gen_available_dictionaries(full_paths=False):
     previous_env_lang = os.environ.get("LANG", "")
     os.environ["LANG"] = "C"
 
-    command = [
-        "hunspell",
-        "-D",
-    ]
-    output = subprocess.run(command, stderr=subprocess.PIPE)
+    output = subprocess.run(
+        ["hunspell", "-D"],
+        stderr=subprocess.PIPE,
+        universal_newlines=True,
+    )
 
     os.environ["LANG"] = previous_env_lang
 
     _inside_available_dictionaries = False
-    for line in output.stderr.decode("utf-8").splitlines():
+    for line in output.stderr.splitlines():
         if _inside_available_dictionaries:
             yield line if full_paths else os.path.basename(line)
         elif line.startswith("AVAILABLE DICTIONARIES"):
@@ -37,8 +37,8 @@ def gen_available_dictionaries(full_paths=False):
 
 def list_available_dictionaries(**kwargs):
     """Convenient wrapper around the generator
-    :py:func:`hunspellcheck.hunspell.gen_available_dictionaries` that
-    returns the dictionary names in a list."""
+    :py:func:`hunspellcheck.hunspell.dictionaries.gen_available_dictionaries`
+    which returns the dictionary names in a list."""
     return list(gen_available_dictionaries(**kwargs))
 
 

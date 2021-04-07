@@ -1,18 +1,18 @@
-"""Tests for hunspell-related utilities of hunspellcheck."""
+"""Tests for hunspell-related utilities about dictionaries."""
 
-import contextlib
 import io
 import os
-import types
 import sys
+import types
 
 import pytest
 
-from hunspellcheck.hunspell import (
+from hunspellcheck.hunspell.dictionaries import (
     gen_available_dictionaries,
     list_available_dictionaries,
     print_available_dictionaries,
 )
+
 
 def assert_dictionaries_list(dicts_list, full_paths=False):
     assert len(dicts_list) > 0
@@ -25,7 +25,7 @@ def assert_dictionaries_list(dicts_list, full_paths=False):
 
 @pytest.mark.parametrize("full_paths", (True, False))
 def test_gen_available_dictionaries(full_paths):
-    available_dicts_gen =  gen_available_dictionaries(full_paths=full_paths)
+    available_dicts_gen = gen_available_dictionaries(full_paths=full_paths)
     assert isinstance(available_dicts_gen, types.GeneratorType)
     assert_dictionaries_list(list(available_dicts_gen), full_paths=full_paths)
 
@@ -33,23 +33,18 @@ def test_gen_available_dictionaries(full_paths):
 @pytest.mark.parametrize("full_paths", (True, False))
 def test_list_available_dictionaries(full_paths):
     assert_dictionaries_list(
-        list_available_dictionaries(full_paths=full_paths),
-        full_paths=full_paths
+        list_available_dictionaries(full_paths=full_paths), full_paths=full_paths
     )
-
 
 
 @pytest.mark.parametrize("sort", (True, False))
 @pytest.mark.parametrize(
     "stream",
-    (
-        lambda: sys.stdout,
-        lambda: io.StringIO()
-    ),
+    (lambda: sys.stdout, lambda: io.StringIO()),
     ids=[
         "sys.stdout",
         "io.StringIO",
-    ]
+    ],
 )
 @pytest.mark.parametrize("full_paths", (True, False))
 def test_print_available_dictionaries(sort, stream, capsys, full_paths):
@@ -66,9 +61,7 @@ def test_print_available_dictionaries(sort, stream, capsys, full_paths):
         stdout = _stream.getvalue()
 
     available_dictionaries_list = stdout.splitlines()
-    expected_dictionaries_list = list_available_dictionaries(
-        full_paths=full_paths
-    )
+    expected_dictionaries_list = list_available_dictionaries(full_paths=full_paths)
     if sort:
         assert available_dictionaries_list == sorted(expected_dictionaries_list)
     else:

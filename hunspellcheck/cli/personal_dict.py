@@ -6,8 +6,9 @@ import os
 
 class PersonalDictionaryAction(argparse._StoreAction):
     def __call__(self, parser, namespace, values, option_string=None):
-        if not os.path.isfile(values[0]):
+        filename = values[0]
+        if not os.path.isfile(filename):
             raise FileNotFoundError(
-                f"Personal dictionary file not found at \"{values}\""
+                f'Personal dictionary file not found at "{filename}"'
             )
-        super().__call__(parser, namespace, values[0], option_string=option_string)
+        super().__call__(parser, namespace, filename, option_string=option_string)

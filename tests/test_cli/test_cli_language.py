@@ -10,7 +10,7 @@ from babel import Locale
 
 from hunspellcheck.cli import extend_argument_parser
 from hunspellcheck.cli.language import HunspellDictionaryNegotiatorAction
-from hunspellcheck.hunspell import (
+from hunspellcheck.hunspell.dictionaries import (
     gen_available_dictionaries,
     list_available_dictionaries,
 )
@@ -21,7 +21,12 @@ from hunspellcheck.hunspell import (
 def test_extend_argument_parser__language(language, option):
     """Test 'language' argument of 'extend_argument_parser' function."""
     parser = argparse.ArgumentParser()
-    extend_argument_parser(parser, language=language, personal_dict=False)
+    extend_argument_parser(
+        parser,
+        language=language,
+        personal_dict=False,
+        files=False,
+    )
 
     if language:
         opts = parser.parse_args([option, "en_US"])
@@ -35,10 +40,10 @@ def test_extend_argument_parser__language(language, option):
         assert opts.language[1] == "en_AU"
     else:
         stderr = io.StringIO()
-        with contextlib.redirect_stderr(stderr):
-            with pytest.raises(SystemExit):
-                parser.parse_args([option, "en_US"])
+        with contextlib.redirect_stderr(stderr), pytest.raises(SystemExit):
+            parser.parse_args([option, "en_US"])
         assert f"error: unrecognized arguments: {option} en_US" in stderr.getvalue()
+
 
 @pytest.mark.parametrize(
     "language_args",
@@ -49,7 +54,7 @@ def test_extend_argument_parser__language(language, option):
     ids=(
         "--lang",
         "-d/--dictionary",
-    )
+    ),
 )
 def test_extend_argument_parser__language_args(language_args):
     parser = argparse.ArgumentParser()
@@ -57,6 +62,7 @@ def test_extend_argument_parser__language_args(language_args):
         parser,
         language_args=language_args,
         personal_dict=False,
+        files=False,
     )
 
     # language options matching
@@ -67,42 +73,49 @@ def test_extend_argument_parser__language_args(language_args):
 
     # language options not matching
     stderr = io.StringIO()
-    with contextlib.redirect_stderr(stderr):
-        with pytest.raises(SystemExit):
-            parser.parse_args([f"--{uuid.uuid4().hex[:8]}", "en_US"])
+    with contextlib.redirect_stderr(stderr), pytest.raises(SystemExit):
+        parser.parse_args([f"--{uuid.uuid4().hex[:8]}", "en_US"])
 
-    args_string = '/'.join(language_args)
+    args_string = "/".join(language_args)
     expected_message = f"the following arguments are required: {args_string}"
     assert expected_message in stderr.getvalue()
 
 
-def test_extend_argument_parser__language_kwargs():
+@pytest.mark.parametrize(
+    "language_kwargs",
+    (
+        {
+            "help": "Foo bar help",
+            "metavar": "IDIOMA",
+        },
+        {
+            "dest": "idioma",
+        },
+    ),
+    ids=("help,metavar", "dest"),
+)
+def test_extend_argument_parser__language_kwargs(language_kwargs):
     parser = argparse.ArgumentParser()
 
-    help_value, metavar_value = ("Foo bar help", "IDIOMA")
     extend_argument_parser(
         parser,
-        language_kwargs={
-            "help": help_value,
-            "metavar": metavar_value,
-        },
+        language_kwargs=language_kwargs,
         personal_dict=False,
+        files=False,
     )
 
     language_action = parser._optionals._actions[-1]
-    assert language_action.help == help_value
-    assert language_action.metavar == metavar_value
+
+    for kwarg, value in language_kwargs.items():
+        assert getattr(language_action, kwarg) == value
 
 
 @pytest.mark.parametrize(
-    (
-        "negotiate_language",
-        "action_class"
-    ),
+    ("negotiate_language", "action_class"),
     (
         (True, HunspellDictionaryNegotiatorAction),
         (False, argparse._ExtendAction),
-    )
+    ),
 )
 def test_extend_argument_parser__negotiate_language(
     negotiate_language,
@@ -113,6 +126,7 @@ def test_extend_argument_parser__negotiate_language(
         parser,
         negotiate_language=negotiate_language,
         personal_dict=False,
+        files=False,
     )
 
     language_action = parser._optionals._actions[-1]
@@ -125,6 +139,7 @@ def test_HunspellDictionaryNegotiatorAction():
         parser,
         negotiate_language=True,
         personal_dict=False,
+        files=False,
     )
 
     # language negotiation 'en' -> 'en_US' (depends on available dictionaries)
@@ -138,9 +153,8 @@ def test_HunspellDictionaryNegotiatorAction():
     # invalid language dictionary
     lang_code = "jnfdsmfbs"
     stderr = io.StringIO()
-    with contextlib.redirect_stderr(stderr):
-        with pytest.raises(SystemExit):
-            parser.parse_args(["-l", lang_code])
+    with contextlib.redirect_stderr(stderr), pytest.raises(SystemExit):
+        parser.parse_args(["-l", lang_code])
     assert (
         f"argument -l/--language: invalid choice: '{lang_code}' (choose from '"
     ) in stderr.getvalue()
