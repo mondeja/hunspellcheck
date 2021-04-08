@@ -8,7 +8,7 @@ import string
 from hunspellcheck.hunspell.spellcheck import hunspell_spellcheck
 
 
-POSSIBLE_INCLUSSIONS = [
+ERROR_FIELDS = [
     "filename",
     "line_number",
     "word",
@@ -47,18 +47,18 @@ class SpellChecker:
     Args:
         filenames_contents (dict): Dictionary mapping filenames to content of
             those files.
-        language_dicts ()
+        languages ()
     """
 
     def __init__(
         self,
         filenames_contents,
-        language_dicts,
+        languages,
         personal_dict=None,
         looks_like_a_word=looks_like_a_word,
     ):
         self.filenames_contents = filenames_contents
-        self.language_dicts = language_dicts
+        self.languages = languages
         self.personal_dict = personal_dict
         self.looks_like_a_word = looks_like_a_word
         self.errors = None
@@ -68,7 +68,7 @@ class SpellChecker:
         include_filename=True,
         include_line_number=True,
         include_word=True,
-        include_word_line_index=False,
+        include_word_line_index=True,
         include_line=False,
         include_text=False,
         include_error_number=False,
@@ -78,7 +78,7 @@ class SpellChecker:
             self.filenames_contents,
             hunspell_spellcheck(
                 quote_for_hunspell("\n".join(self.filenames_contents.values())),
-                self.language_dicts,
+                self.languages,
                 personal_dict=self.personal_dict,
             ),
             looks_like_a_word=self.looks_like_a_word,
@@ -113,8 +113,8 @@ def parse_hunspell_output(
     include_filename=True,
     include_line_number=True,
     include_word=True,
-    include_word_line_index=False,
-    include_line=True,
+    include_word_line_index=True,
+    include_line=False,
     include_text=False,
     include_error_number=False,
     include_near_misses=False,
@@ -123,7 +123,7 @@ def parse_hunspell_output(
     locals_yielder = []
 
     _locals = locals()
-    for possible_inclusion in POSSIBLE_INCLUSSIONS:
+    for possible_inclusion in ERROR_FIELDS:
         if _locals.get(f"include_{possible_inclusion}"):
             locals_yielder.append(possible_inclusion)
 
@@ -162,3 +162,16 @@ def parse_hunspell_output(
                 yield ({field: _locals.get(field) for field in locals_yielder})
 
     raise Unreachable("Got this one? I'm sorry, read XKCD 2200, then open an issue.")
+
+
+def render_error(
+    data,
+    fields=["filename", "word", "line_number", "word_line_index"],
+    sep=":",
+):
+    values = []
+    for field in fields:
+        value = data.get(field)
+        if value is not None:
+            values.append(str(value))
+    return (sep).join(values)

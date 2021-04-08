@@ -19,7 +19,7 @@ def test_extend_argument_parser__personal_dict(personal_dict, option):
     extend_argument_parser(
         parser,
         personal_dict=personal_dict,
-        language=False,
+        languages=False,
         files=False,
     )
 
@@ -55,7 +55,7 @@ def test_extend_argument_parser__personal_dict_args(personal_dict_args):
     extend_argument_parser(
         parser,
         personal_dict_args=personal_dict_args,
-        language=False,
+        languages=False,
         files=False,
     )
 
@@ -97,7 +97,7 @@ def test_extend_argument_parser__personal_dict_kwargs(personal_dict_kwargs):
     extend_argument_parser(
         parser,
         personal_dict_kwargs=personal_dict_kwargs,
-        language=False,
+        languages=False,
         files=False,
     )
 
@@ -111,7 +111,7 @@ def test_PersonalDictionaryAction():
     parser = argparse.ArgumentParser()
     extend_argument_parser(
         parser,
-        language=False,
+        languages=False,
         files=False,
     )
 

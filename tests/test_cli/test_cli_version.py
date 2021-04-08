@@ -20,7 +20,7 @@ def test_extend_argument_parser__version(version, option):
     extend_argument_parser(
         parser,
         version=version,
-        language=False,
+        languages=False,
         personal_dict=False,
         files=False,
     )
@@ -61,7 +61,7 @@ def test_extend_argument_parser__version_args(version_args):
         hunspell_version=False,
         ispell_version=False,
         files=False,
-        language=False,
+        languages=False,
         personal_dict=False,
     )
 
@@ -101,7 +101,7 @@ def test_extend_argument_parser__version_kwargs(version_kwargs):
         version=True,
         version_kwargs=version_kwargs,
         files=False,
-        language=False,
+        languages=False,
         personal_dict=False,
     )
 
@@ -223,7 +223,7 @@ def test_extend_argument_parser__version_default_template(
         hunspell_version=hunspell_version,
         ispell_version=ispell_version,
         files=False,
-        language=False,
+        languages=False,
         personal_dict=False,
     )
 

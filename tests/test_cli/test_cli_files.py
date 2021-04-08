@@ -18,7 +18,7 @@ def test_extend_argument_parser__files(files):
     extend_argument_parser(
         parser,
         files=files,
-        language=False,
+        languages=False,
         personal_dict=False,
     )
 
@@ -74,7 +74,7 @@ def test_extend_argument_parser__files_kwargs(files_kwargs):
     extend_argument_parser(
         parser,
         files_kwargs=files_kwargs,
-        language=False,
+        languages=False,
         personal_dict=False,
     )
 
@@ -88,7 +88,7 @@ def test_FilesOrGlobsAction():
     parser = argparse.ArgumentParser()
     extend_argument_parser(
         parser,
-        language=False,
+        languages=False,
         personal_dict=False,
     )
 
@@ -102,16 +102,17 @@ def test_FilesOrGlobsAction():
 
     foo_filenames = [
         os.path.join(hunspellcheck_foo_tempdir, filename)
-        for filename in ("foo.txt", "bar.txt", "baz.py")
+        for filename in ("bar.txt", "baz.py", "foo.txt")
     ]
     for filename in foo_filenames:
         with open(filename, "w") as f:
             f.write("")
 
     opts = parser.parse_args([os.path.join(hunspellcheck_foo_tempdir, "*.txt")])
-    assert len(opts.files) == 2
-    assert opts.files[0] == foo_filenames[0]
-    assert opts.files[1] == foo_filenames[1]
+    files = sorted(opts.files)
+    assert len(files) == 2
+    assert files[0] == foo_filenames[0]
+    assert files[1] == foo_filenames[2]
 
     # multiple globs
     hunspellcheck_bar_tempdir = os.path.join(tempdir, "hunspellcheck-bar")
@@ -121,7 +122,7 @@ def test_FilesOrGlobsAction():
 
     bar_filenames = [
         os.path.join(hunspellcheck_bar_tempdir, filename)
-        for filename in ("foo.txt", "bar.txt", "baz.py")
+        for filename in ("bar.txt", "baz.py", "foo.txt")
     ]
     for filename in bar_filenames:
         with open(filename, "w") as f:
@@ -133,10 +134,11 @@ def test_FilesOrGlobsAction():
             os.path.join(hunspellcheck_bar_tempdir, "*.py"),
         ]
     )
-    assert len(opts.files) == 3
-    assert opts.files[0] == foo_filenames[0]
-    assert opts.files[1] == foo_filenames[1]
-    assert opts.files[2] == bar_filenames[2]
+    files = sorted(opts.files)
+    assert len(files) == 3
+    assert files[0] == bar_filenames[1]
+    assert files[1] == foo_filenames[0]
+    assert files[2] == foo_filenames[2]
 
     for dirpath in [hunspellcheck_foo_tempdir, hunspellcheck_bar_tempdir]:
         shutil.rmtree(dirpath)

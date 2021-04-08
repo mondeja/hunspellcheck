@@ -3,7 +3,7 @@
 import warnings
 
 from hunspellcheck.cli.files import FilesOrGlobsAction
-from hunspellcheck.cli.language import HunspellDictionaryNegotiatorAction
+from hunspellcheck.cli.languages import create_hunspell_valid_dictionary_action
 from hunspellcheck.cli.personal_dict import PersonalDictionaryAction
 from hunspellcheck.cli.version import DEFAULT_VERSION_TEMPLATE, render_version_template
 
@@ -21,10 +21,10 @@ def extend_argument_parser(
     version_kwargs={},
     files=True,
     files_kwargs={},
-    language=True,
-    language_args=["-l", "--languages"],
-    language_kwargs={},
-    negotiate_language=True,
+    languages=True,
+    languages_args=["-l", "--language"],
+    languages_kwargs={},
+    negotiate_languages=True,
     personal_dict=True,
     personal_dict_args=["-p", "--personal-dict"],
     personal_dict_kwargs={},
@@ -63,23 +63,21 @@ def extend_argument_parser(
         _files_kwargs.update(files_kwargs)
         parser.add_argument(**_files_kwargs)
 
-    if language:
-        _language_kwargs = {
+    if languages:
+        _languages_kwargs = {
             "type": str,
             "required": True,
             "metavar": "LANGUAGE",
-            "dest": "language",
+            "dest": "languages",
             "help": "Language to check, you'll have to install the"
             " corresponding hunspell dictionary.",
         }
 
-        if negotiate_language:
-            _language_kwargs["action"] = HunspellDictionaryNegotiatorAction
-        else:
-            _language_kwargs["action"] = "extend"
-
-        _language_kwargs.update(language_kwargs)
-        parser.add_argument(*language_args, **_language_kwargs)
+        _languages_kwargs["action"] = create_hunspell_valid_dictionary_action(
+            negotiate_languages=negotiate_languages,
+        )
+        _languages_kwargs.update(languages_kwargs)
+        parser.add_argument(*languages_args, **_languages_kwargs)
 
     if personal_dict:
         _personal_dict_kwargs = {

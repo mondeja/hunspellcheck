@@ -291,6 +291,7 @@ class TestSpellChecker:
                         "filename": "foo.txt",
                         "line_number": 1,
                         "word": "hiul",
+                        "word_line_index": 10,
                     }
                 ],
             ),
