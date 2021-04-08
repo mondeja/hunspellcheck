@@ -41,7 +41,7 @@ def looks_like_a_word(word):
     return True
 
 
-class SpellChecker:
+class HunspellChecker:
     """Main spellchecking interface of hunspellcheck.
 
     Args:
@@ -164,7 +164,7 @@ def parse_hunspell_output(
     raise Unreachable("Got this one? I'm sorry, read XKCD 2200, then open an issue.")
 
 
-def render_error(
+def render_hunspell_word_error(
     data,
     fields=["filename", "word", "line_number", "word_line_index"],
     sep=":",

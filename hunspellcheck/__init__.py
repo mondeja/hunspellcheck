@@ -7,10 +7,10 @@ from hunspellcheck.hunspell.dictionaries import (
     print_available_dictionaries,
 )
 from hunspellcheck.hunspell.version import get_hunspell_version
-from hunspellcheck.spellchecker import SpellChecker, render_error
+from hunspellcheck.spellchecker import HunspellChecker, render_hunspell_word_error
 
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __title__ = "hunspellcheck"
 __all__ = (
     "extend_argument_parser",
@@ -18,6 +18,6 @@ __all__ = (
     "get_hunspell_version",
     "list_available_dictionaries",
     "print_available_dictionaries",
-    "render_error",
-    "SpellChecker",
+    "render_hunspell_word_error",
+    "HunspellChecker",
 )

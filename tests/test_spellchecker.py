@@ -5,10 +5,10 @@ import tempfile
 
 import pytest
 
-from hunspellcheck import SpellChecker
+from hunspellcheck import HunspellChecker
 
 
-class TestSpellChecker:
+class TestHunspellChecker:
     @pytest.mark.parametrize(
         (
             "filenames_contents",
@@ -255,7 +255,7 @@ class TestSpellChecker:
         include_near_misses,
         expected_errors,
     ):
-        spellchecker = SpellChecker(filenames_contents, language_dicts)
+        spellchecker = HunspellChecker(filenames_contents, language_dicts)
 
         error_index = 0
         for error in spellchecker.check(
@@ -316,7 +316,7 @@ class TestSpellChecker:
         with open(personal_dict_filename, "w") as f:
             f.write(personal_dict_content)
 
-        spellchecker = SpellChecker(
+        spellchecker = HunspellChecker(
             filenames_contents,
             language_dicts,
             personal_dict=personal_dict_filename,

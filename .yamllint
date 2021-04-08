@@ -30,6 +30,7 @@ rules:
     ignore: |
       .pre-commit-config.yaml
       .github
+      .readthedocs.yml
   line-length:
     allow-non-breakable-words: true
     max: 80

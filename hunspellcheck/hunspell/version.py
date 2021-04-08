@@ -14,7 +14,7 @@ def get_hunspell_version(hunspell=True, ispell=True):
         ispell (bool): Include the version of Ispell in the response.
 
     Returns:
-        dict: Their fields would be hunspell and ispell, if both included using
+        dict: Their fields would be `hunspell` and `ispell`, if both included
             using the kwargs of this function.
     """
     if not hunspell and not ispell:

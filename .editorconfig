@@ -13,6 +13,9 @@ trim_trailing_whitespace = true
 [*.{py,cfg}]
 indent_size = 4
 
+[*.rst]
+indent_size = 3
+
 # Markdown settings
 [*.md]
 trim_trailing_whitespace = false

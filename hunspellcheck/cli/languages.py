@@ -12,6 +12,21 @@ from hunspellcheck.hunspell.dictionaries import (
 
 
 def is_valid_dictionary_language(dictionary_name, negotiate_languages=False):
+    """Check if a dictionary name is a valid dictionary installed
+    for your Hunspell version.
+
+    Args:
+        dictionary_name (str): Dictionary language.
+        negotiate_languages (bool): Enable language negotiation from locale
+            name to territory.
+
+    Returns:
+        tuple: Has 3 values:
+            - The first value is a boolean and indicates if the language is valid.
+            - The second value is the dictionary language name, which could be
+                changed from the input is language negotation is enabled.
+            - The third value is a list with all available dictionaries.
+    """
     available_dictionaries = list_available_dictionaries()
     if dictionary_name not in available_dictionaries:
         if negotiate_languages:

@@ -10,10 +10,14 @@ import tempfile
 
 import pytest
 
-from hunspellcheck import SpellChecker, extend_argument_parser, render_error
+from hunspellcheck import (
+    HunspellChecker,
+    extend_argument_parser,
+    render_hunspell_word_error,
+)
 
 
-class TestSpellCheckerTxtCLI:
+class TestHunspellCheckerTxtCLI:
     def build_parser(self):
         parser = argparse.ArgumentParser()
         extend_argument_parser(
@@ -31,13 +35,13 @@ class TestSpellCheckerTxtCLI:
             with open(filename) as f:
                 filenames_contents[filename] = f.read()
 
-        spellchecker = SpellChecker(
+        spellchecker = HunspellChecker(
             filenames_contents=filenames_contents,
             languages=opts.languages,
             personal_dict=opts.personal_dict,
         )
-        for error in spellchecker.check():
-            sys.stderr.write(f"{render_error(error)}\n")
+        for word_error in spellchecker.check():
+            sys.stderr.write(f"{render_hunspell_word_error(word_error)}\n")
 
         return 0 if not spellchecker.errors else 1
 

@@ -63,6 +63,15 @@ def print_available_dictionaries(sort=True, stream=sys.stdout, **kwargs):
 
 
 def gen_available_dictionaries_with_langcodes(sort=True, **kwargs):
+    """Generates all available dictionaries installed along with their
+    locale names (without territories).
+
+    For example, if `es_ES` is installed, `es` also will be included
+    in the response.
+
+    Args:
+        sort (bool): Sort languages alfabetically.
+    """
     dictionaries_iter = gen_available_dictionaries(**kwargs)
     if sort:
         dictionaries_iter = sorted(dictionaries_iter)
