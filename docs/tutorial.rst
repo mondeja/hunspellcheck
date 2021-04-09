@@ -35,7 +35,7 @@ Command line interface
    def main():
        opts = build_parser().parse_args()
 
-       # Is your mission to extract the contents of the files.
+       # Extracting content from the files is the task you must focused in.
        # By default are passed as globs in positional arguments and stored in
        # the 'files' property of the namespace
        filenames_contents = {}
@@ -47,6 +47,7 @@ Command line interface
            filenames_contents=filenames_contents,
            languages=opts.languages,
            personal_dicts=opts.personal_dicts,
+           encoding=opts.encoding,
        )
        for word_error in spellchecker.check():
            print(render_hunspell_word_error(word_error), file=sys.stderr)
@@ -75,6 +76,8 @@ You can see the usage passing ``--help`` option to this script:
                            Language to check, you'll have to install the corresponding hunspell dictionary.
      -p PERSONAL_DICTIONARY, --personal-dict PERSONAL_DICTIONARY
                            Additional dictionaries to extend the words to exclude.
+     -i ENCODING, --input ENCODING
+                           Input content encoding.
 
 
 To use it, just create a ``.txt`` file and pass its filename as positional
@@ -105,7 +108,7 @@ Public API interface
       looks_like_a_word,
    )
 
-   def txt_file_to_content(filename, encoding="utf-8"):
+   def txt_file_to_content(filename, encoding=None):
        with open(filename, "r", encoding=encoding) as f:
            return f.read()
 
@@ -124,7 +127,7 @@ Public API interface
         include_error_number=False,
         include_near_misses=False,
         looks_like_a_word=looks_like_a_word,
-        encoding="utf-8",
+        encoding=None,
    ):
         assert_is_valid_dictionary_language_or_filename(
             languages,
@@ -144,6 +147,7 @@ Public API interface
             languages,
             personal_dicts=personal_dicts,
             looks_like_a_word=looks_like_a_word,
+            encoding=encoding,
         ).check(
             include_filename=include_filename,
             include_line_number=include_line_number,

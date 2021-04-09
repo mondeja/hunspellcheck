@@ -90,8 +90,8 @@ def test_is_valid_dictionary_language_or_filename(value, expected_result):
     ("value", "expected_error"),
     (
         (VALID_DICTIONARY_LANGUAGE, None),
-        ("foobarbazimpossible.totallycrazyname", InvalidLanguageDictionaryError),
-        (["foobarbazimpossible.totallycrazyname"], InvalidLanguageDictionaryError),
+        ("foobar.totallycrazyname", InvalidLanguageDictionaryError),
+        (["barbaz.totallycrazyname"], InvalidLanguageDictionaryError),
     ),
 )
 def test_assert_is_valid_dictionary_language_or_filename(value, expected_error):

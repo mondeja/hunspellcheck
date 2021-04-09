@@ -23,6 +23,7 @@ def test_extend_argument_parser__version(version, option):
         languages=False,
         personal_dicts=False,
         files=False,
+        encoding=False,
     )
 
     if version:
@@ -63,6 +64,7 @@ def test_extend_argument_parser__version_name_or_flags(version_name_or_flags):
         files=False,
         languages=False,
         personal_dicts=False,
+        encoding=False,
     )
 
     # version options matching
@@ -103,6 +105,7 @@ def test_extend_argument_parser__version_kwargs(version_kwargs):
         files=False,
         languages=False,
         personal_dicts=False,
+        encoding=False,
     )
 
     version_action = parser._optionals._actions[-1]
@@ -225,6 +228,7 @@ def test_extend_argument_parser__version_default_template(
         files=False,
         languages=False,
         personal_dicts=False,
+        encoding=False,
     )
 
     # any ('--version' option not included)

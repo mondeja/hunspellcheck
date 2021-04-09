@@ -25,6 +25,7 @@ def test_extend_argument_parser__languages(languages, option):
         languages=languages,
         personal_dicts=False,
         files=False,
+        encoding=False,
     )
 
     if languages:
@@ -62,11 +63,12 @@ def test_extend_argument_parser__languages_name_or_flags(languages_name_or_flags
         languages_name_or_flags=languages_name_or_flags,
         personal_dicts=False,
         files=False,
+        encoding=False,
     )
 
     # language options matching
-    for language_arg in languages_name_or_flags:
-        opts = parser.parse_args([language_arg, "en_US"])
+    for languages_arg in languages_name_or_flags:
+        opts = parser.parse_args([languages_arg, "en_US"])
         assert len(opts.languages) == 1
         assert opts.languages[0] == "en_US"
 
@@ -101,6 +103,7 @@ def test_extend_argument_parser__languages_kwargs(languages_kwargs):
         languages_kwargs=languages_kwargs,
         personal_dicts=False,
         files=False,
+        encoding=False,
     )
 
     language_action = parser._optionals._actions[-1]
@@ -117,6 +120,7 @@ def test_extend_argument_parser__negotiate_languages(negotiate_languages):
         negotiate_languages=negotiate_languages,
         personal_dicts=False,
         files=False,
+        encoding=False,
     )
 
     if negotiate_languages:
@@ -139,6 +143,7 @@ def test_HunspellDictionaryNegotiatorAction():
         negotiate_languages=True,
         personal_dicts=False,
         files=False,
+        encoding=False,
     )
 
     # language negotiation 'en' -> 'en_US' (depends on available dictionaries)

@@ -53,6 +53,7 @@ class TestHunspellCheckerTxtCLI(HunspellCheckerInterfaceUtil):
             filenames_contents=filenames_contents,
             languages=opts.languages,
             personal_dicts=opts.personal_dicts,
+            encoding=opts.encoding,
         )
         for word_error in spellchecker.check():
             sys.stderr.write(f"{render_hunspell_word_error(word_error)}\n")
@@ -96,7 +97,7 @@ class TestHunspellCheckerTxtCLI(HunspellCheckerInterfaceUtil):
 
 
 class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
-    def txt_file_to_content(self, filename, encoding="utf-8"):
+    def txt_file_to_content(self, filename, encoding=None):
         with open(filename, encoding=encoding) as f:
             return f.read()
 
@@ -115,7 +116,7 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
         include_error_number=False,
         include_near_misses=False,
         looks_like_a_word=looks_like_a_word,
-        encoding="utf-8",
+        encoding=None,
     ):
         assert_is_valid_dictionary_language_or_filename(
             languages,
@@ -135,6 +136,7 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
             languages,
             personal_dicts=personal_dicts,
             looks_like_a_word=looks_like_a_word,
+            encoding=encoding,
         ).check(
             include_filename=include_filename,
             include_line_number=include_line_number,

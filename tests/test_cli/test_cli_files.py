@@ -20,6 +20,7 @@ def test_extend_argument_parser__files(files):
         files=files,
         languages=False,
         personal_dicts=False,
+        encoding=False,
     )
 
     tempdir = tempfile.gettempdir()
@@ -75,6 +76,7 @@ def test_extend_argument_parser__files_kwargs(files_kwargs):
         files_kwargs=files_kwargs,
         languages=False,
         personal_dicts=False,
+        encoding=False,
     )
 
     files_action = parser._optionals._actions[-1]
@@ -89,6 +91,7 @@ def test_FilesOrGlobsAction():
         parser,
         languages=False,
         personal_dicts=False,
+        encoding=False,
     )
 
     tempdir = tempfile.gettempdir()

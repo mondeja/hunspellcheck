@@ -22,6 +22,7 @@ def test_extend_argument_parser__personal_dicts(personal_dicts, option):
         personal_dicts=personal_dicts,
         languages=False,
         files=False,
+        encoding=False,
     )
 
     personal_dicts_file = tempfile.NamedTemporaryFile()
@@ -61,6 +62,7 @@ def test_extend_argument_parser__personal_dicts_name_or_flags(
         personal_dicts_name_or_flags=personal_dicts_name_or_flags,
         languages=False,
         files=False,
+        encoding=False,
     )
 
     personal_dicts_file = tempfile.NamedTemporaryFile()
@@ -104,6 +106,7 @@ def test_extend_argument_parser__personal_dicts_kwargs(personal_dicts_kwargs):
         personal_dicts_kwargs=personal_dicts_kwargs,
         languages=False,
         files=False,
+        encoding=False,
     )
 
     personal_dicts_action = parser._optionals._actions[-1]
@@ -118,6 +121,7 @@ def test_PersonalDictionaryAction():
         parser,
         languages=False,
         files=False,
+        encoding=False,
     )
 
     # existent file

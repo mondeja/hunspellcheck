@@ -28,6 +28,9 @@ def extend_argument_parser(
     personal_dicts=True,
     personal_dicts_name_or_flags=["-p", "--personal-dict"],
     personal_dicts_kwargs={},
+    encoding=True,
+    encoding_name_or_flags=["-i", "--input-encoding"],
+    encoding_kwargs={},
 ):
     """Extends a :py:class:`argparse.ArgumentParser` instance adding
     spellchecking common parameters.
@@ -44,6 +47,8 @@ def extend_argument_parser(
     * An optional argument ``-p/--personal-dict`` that could be passed multiple
       times which takes a path to a file used to exclude certain words from
       being triggered as positives.
+    * An optional argument ``-i/--input-encoding`` that should define the input
+      content encoding.
 
     Args:
         version (bool): Include a convenient ``--version`` option that will
@@ -106,6 +111,14 @@ def extend_argument_parser(
         personal_dicts_kwargs (dict): Optional kwargs which override the default
             kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
             constructing the ``-p/--personal-dict`` option.
+        encoding (bool): Include the ``-i/--input-encoding`` hunspell option
+            inside the argument parser.
+        encoding_name_or_flags (list, str): Flag name defined constructing
+            the ``-i/--input-encoding`` option using the method
+            :py:meth:`argparse.ArgumentParser.add_argument`.
+        encoding_kwargs (dict): Optional kwargs which override the default
+            kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
+            constructing the ``-i/--input-encoding`` option.
 
     Examples:
         >>> import argparse
@@ -193,3 +206,20 @@ def extend_argument_parser(
             personal_dicts_name_or_flags = [personal_dicts_name_or_flags]
 
         parser.add_argument(*personal_dicts_name_or_flags, **_personal_dicts_kwargs)
+
+    if encoding:
+        _encoding_kwargs = {
+            "type": str,
+            "required": False,
+            "metavar": "ENCODING",
+            "dest": "encoding",
+            "help": "Input content encoding.",
+            "action": "store",
+            "default": None,
+        }
+        _encoding_kwargs.update(encoding_kwargs)
+
+        if isinstance(encoding_name_or_flags, str):
+            encoding_name_or_flags = [encoding_name_or_flags]
+
+        parser.add_argument(*encoding_name_or_flags, **_encoding_kwargs)
