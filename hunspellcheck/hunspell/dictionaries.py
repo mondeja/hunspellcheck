@@ -6,6 +6,8 @@ import sys
 
 from babel import Locale
 
+from hunspellcheck.exceptions import InvalidLanguageDictionaryError
+
 
 def gen_available_dictionaries(full_paths=False):
     """Generates the available dictionaries contained inside the search paths
@@ -129,3 +131,52 @@ def is_valid_dictionary_language(dictionary_name, negotiate_languages=False):
         else:
             return (False, None, available_dictionaries)
     return (True, dictionary_name, available_dictionaries)
+
+
+def is_valid_dictionary_language_or_filename(value, negotiate_languages=False):
+    """Returns if a value is a valid dictionary language name or an existent
+    file defined by their path.
+
+    Args:
+        value (str): Dictionary language or filepath.
+        negotiate_languages (bool): Enable language negotiation from locale
+            name to territory.
+
+    Returns:
+        bool: Indicates if is a valid dictionary supported by Hunspell.
+    """
+    if os.path.isfile(value):
+        return True
+    is_valid, *_ = is_valid_dictionary_language(
+        value,
+        negotiate_languages=negotiate_languages,
+    )
+    return is_valid
+
+
+def assert_is_valid_dictionary_language_or_filename(
+    value,
+    negotiate_languages=False,
+):
+    """Asserts if a value is a valid dictionary language name or an existent
+    file defined by their path. If is not, raises an
+    :py:class:`hunspellcheck.InvalidLanguageDictionaryError`.
+
+    Args:
+        value (str, list): Dictionary language/s or filepath/s.
+        negotiate_languages (bool): Enable language negotiation from locale
+            name to territory.
+    """
+    if isinstance(value, str):
+        if not is_valid_dictionary_language_or_filename(
+            value,
+            negotiate_languages=negotiate_languages,
+        ):
+            raise InvalidLanguageDictionaryError(value)
+    else:
+        for language in value:
+            if not is_valid_dictionary_language_or_filename(
+                language,
+                negotiate_languages=negotiate_languages,
+            ):
+                raise InvalidLanguageDictionaryError(value)

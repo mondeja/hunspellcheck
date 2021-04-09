@@ -12,7 +12,9 @@ import pytest
 
 from hunspellcheck import (
     HunspellChecker,
+    assert_is_valid_dictionary_language_or_filename,
     extend_argument_parser,
+    looks_like_a_word,
     render_hunspell_word_error,
 )
 
@@ -69,7 +71,7 @@ class TestHunspellCheckerTxtCLI:
 
     def test_error_found(self):
         filename = self._create_temp_file(
-            "Algo de texto en español y ahora in english\n"
+            "Algo de texto en español y ahora en english\n"
         )
 
         stderr = io.StringIO()
@@ -88,3 +90,60 @@ class TestHunspellCheckerTxtCLI:
         assert "error: the following arguments are required: -l/--language" in (
             stderr.getvalue()
         )
+
+
+class TestHunspellCheckerTxtAPI:
+    def main(
+        self,
+        filename_contents,
+        languages,
+        personal_dict=None,
+        negotiate_languages=False,
+        include_filename=True,
+        include_line_number=True,
+        include_word=True,
+        include_word_line_index=True,
+        include_line=False,
+        include_text=False,
+        include_error_number=False,
+        include_near_misses=False,
+        looks_like_a_word=looks_like_a_word,
+    ):
+        assert_is_valid_dictionary_language_or_filename(
+            languages,
+            negotiate_languages=negotiate_languages,
+        )
+
+        yield from HunspellChecker(
+            filename_contents,
+            languages,
+            personal_dict=personal_dict,
+            looks_like_a_word=looks_like_a_word,
+        ).check(
+            include_filename=include_filename,
+            include_line_number=include_line_number,
+            include_word=include_word,
+            include_word_line_index=include_word_line_index,
+            include_line=include_line,
+            include_text=include_text,
+            include_error_number=include_error_number,
+            include_near_misses=include_near_misses,
+        )
+
+    @pytest.mark.parametrize(
+        "languages", ("es_ES", ["es_ES"]), ids=("es_ES", "[es_ES]")
+    )
+    def test_error_found(self, languages):
+        filename_contents = {
+            "foo.txt": "Algo de texto en español y ahora en english",
+        }
+
+        n_errors = 0
+        for word_error in self.main(filename_contents, languages):
+            assert word_error["word"] == "english"
+            assert word_error["filename"] == "foo.txt"
+            assert word_error["line_number"] == 1
+            assert word_error["word_line_index"] == 36
+            n_errors += 1
+
+        assert n_errors == 1

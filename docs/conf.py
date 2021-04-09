@@ -54,6 +54,12 @@ html_css_files = [
 
 # -- Options for `sphinx.ext.intersphinx` ------------------------------------
 
+napoleon_google_docstring = True
+napoleon_numpy_docstring = False
+
+
+# -- Options for `sphinx.ext.intersphinx` ------------------------------------
+
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "jinja2": ("https://jinja2docs.readthedocs.io/en/stable", None),
