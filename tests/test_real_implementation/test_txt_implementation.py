@@ -2,6 +2,7 @@
 
 import argparse
 import contextlib
+import glob
 import io
 import os
 import re
@@ -19,7 +20,18 @@ from hunspellcheck import (
 )
 
 
-class TestHunspellCheckerTxtCLI:
+class HunspellCheckerInterfaceUtil:
+    def _create_temp_file(self, content):
+        filename = tempfile.NamedTemporaryFile().name
+        if os.path.isfile(filename):
+            os.remove(filename)
+
+        with open(filename, "w") as f:
+            f.write(content)
+        return filename
+
+
+class TestHunspellCheckerTxtCLI(HunspellCheckerInterfaceUtil):
     def build_parser(self):
         parser = argparse.ArgumentParser()
         extend_argument_parser(
@@ -46,15 +58,6 @@ class TestHunspellCheckerTxtCLI:
             sys.stderr.write(f"{render_hunspell_word_error(word_error)}\n")
 
         return 0 if not spellchecker.errors else 1
-
-    def _create_temp_file(self, content):
-        filename = tempfile.NamedTemporaryFile().name
-        if os.path.isfile(filename):
-            os.remove(filename)
-
-        with open(filename, "w") as f:
-            f.write(content)
-        return filename
 
     def test_version(self):
         # test '--version'
@@ -92,10 +95,14 @@ class TestHunspellCheckerTxtCLI:
         )
 
 
-class TestHunspellCheckerTxtAPI:
+class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
+    def txt_file_to_content(self, filename, encoding="utf-8"):
+        with open(filename, encoding=encoding) as f:
+            return f.read()
+
     def main(
         self,
-        filename_contents,
+        files,
         languages,
         personal_dict=None,
         negotiate_languages=False,
@@ -108,11 +115,20 @@ class TestHunspellCheckerTxtAPI:
         include_error_number=False,
         include_near_misses=False,
         looks_like_a_word=looks_like_a_word,
+        encoding="utf-8",
     ):
         assert_is_valid_dictionary_language_or_filename(
             languages,
             negotiate_languages=negotiate_languages,
         )
+
+        filename_contents = {}
+        for glob_files in files:
+            for filename in glob.glob(glob_files):
+                filename_contents[filename] = self.txt_file_to_content(
+                    filename,
+                    encoding=encoding,
+                )
 
         yield from HunspellChecker(
             filename_contents,
@@ -134,14 +150,12 @@ class TestHunspellCheckerTxtAPI:
         "languages", ("es_ES", ["es_ES"]), ids=("es_ES", "[es_ES]")
     )
     def test_error_found(self, languages):
-        filename_contents = {
-            "foo.txt": "Algo de texto en español y ahora en english",
-        }
+        filename = self._create_temp_file("Algo de texto en español y ahora en english")
 
         n_errors = 0
-        for word_error in self.main(filename_contents, languages):
+        for word_error in self.main([filename], languages):
             assert word_error["word"] == "english"
-            assert word_error["filename"] == "foo.txt"
+            assert word_error["filename"] == filename
             assert word_error["line_number"] == 1
             assert word_error["word_line_index"] == 36
             n_errors += 1

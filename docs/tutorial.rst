@@ -82,13 +82,12 @@ argument, selecting the language with ``--language`` option:
 
 .. code-block::
 
-   Texto en español y word
-
+   hola hello
 
 .. code-block:: bash
 
    $ python3 __main__.py --language es_ES foo.txt
-   foo.txt:word:1:19
+   foo.txt:hello:1:5
 
 
 Public API interface
@@ -98,15 +97,21 @@ Public API interface
 
    """__init__.py"""
 
+   import glob
+
    from hunspellcheck import (
       HunspellChecker,
       assert_is_valid_dictionary_language_or_filename,
       looks_like_a_word,
    )
 
+   def txt_file_to_content(filename, encoding="utf-8"):
+       with open(filename, "r", encoding=encoding) as f:
+           return f.read()
+
    def txt_spell(
         self,
-        filename_contents,
+        files,
         languages,
         personal_dict=None,
         negotiate_languages=False,
@@ -119,11 +124,20 @@ Public API interface
         include_error_number=False,
         include_near_misses=False,
         looks_like_a_word=looks_like_a_word,
+        encoding="utf-8",
    ):
         assert_is_valid_dictionary_language_or_filename(
             languages,
             negotiate_languages=negotiate_languages,
         )
+
+        filename_contents = {}
+        for glob_files in files:
+             for filename in glob.glob(glob_files):
+                 filename_contents[filename] = txt_file_to_content(
+                     filename,
+                     encoding=encoding,
+                 )
 
         yield from HunspellChecker(
             filename_contents,
@@ -144,10 +158,18 @@ Public API interface
 
 The function will yield from a generator:
 
+.. rubric:: Input
+
+.. code-block::
+
+   hello hola
+
 .. code-block:: python
 
-   for word_error in txt_spell({"foo.txt": "hello hola"}, "es_ES"):
+   for word_error in txt_spell(["foo.txt"], "es_ES"):
        print(word_error)
+
+.. rubric:: Output
 
 .. code-block:: python
 
