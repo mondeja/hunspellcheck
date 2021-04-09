@@ -225,12 +225,13 @@ def render_hunspell_word_error(
     """Renders a mispelled word data dictionary.
 
     This function allows a convenient way to render each mispelled word data
-    dictionary as a string, that could be useful to print using spell checkers.
+    dictionary as a string, that could be useful to print in the context of
+    spell checkers command line interfaces.
 
     Args:
-        data (dict): Mispelled word data, as is yielded by
-            :py:meth:`HunspellChecker.check`.
-        fields (list): List of field to include in the response.
+        data (dict): Mispelled word data, as it is yielded by the method
+            :py:meth:`hunspellcheck.HunspellChecker.check`.
+        fields (list): List of fields to include in the response.
         sep (str): Separator string between each field value.
 
     Returns:

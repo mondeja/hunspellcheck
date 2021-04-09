@@ -56,6 +56,7 @@ html_css_files = [
 
 napoleon_google_docstring = True
 napoleon_numpy_docstring = False
+napoleon_preprocess_types = True
 
 
 # -- Options for `sphinx.ext.intersphinx` ------------------------------------
