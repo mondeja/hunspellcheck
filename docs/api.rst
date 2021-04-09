@@ -1,12 +1,16 @@
+.. _hunspellcheck-public-api:
+
 **********
 Public API
 **********
 
-.. rubric:: CLI utilities
+CLI utilities
+~~~~~~~~~~~~~
 
 .. autofunction:: hunspellcheck.extend_argument_parser
 
-.. rubric:: Spellchecker interface
+Spellchecker interface
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: hunspellcheck.HunspellChecker
    :members:
@@ -14,7 +18,8 @@ Public API
 .. autofunction:: hunspellcheck.render_hunspell_word_error
 .. autofunction:: hunspellcheck.looks_like_a_word
 
-.. rubric:: Hunspell utilities
+Hunspell utilities
+~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: hunspellcheck.get_hunspell_version
 .. autofunction:: hunspellcheck.is_valid_dictionary_language

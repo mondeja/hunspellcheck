@@ -94,7 +94,7 @@ def extend_argument_parser(
             a full language name (for example `es` instead of `es_ES`),
             hunspellcheck will convert `es` to a territorialized language
             dictionary name available using the function
-            :py:meth:`babel.Locale.negotiate`. If is disabled, a language
+            :py:meth:`babel.core.Locale.negotiate`. If is disabled, a language
             dictionary passed as locale code like `es` will be considered
             invalid.
         personal_dict (bool): Include the ``-p/--personal-dict`` option inside

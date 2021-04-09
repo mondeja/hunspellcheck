@@ -174,3 +174,7 @@ The function will yield from a generator:
 .. code-block:: python
 
    {'filename': 'foo.txt', 'line_number': 1, 'word': 'hello', 'word_line_index': 0}
+
+.. seealso::
+
+   :ref:`hunspellcheck-public-api`

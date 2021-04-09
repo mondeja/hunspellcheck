@@ -21,14 +21,14 @@ Features
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Manual
 
    install
    tutorial
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Reference
 
    api

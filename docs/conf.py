@@ -64,4 +64,5 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "jinja2": ("https://jinja2docs.readthedocs.io/en/stable", None),
     "babel": ("http://babel.pocoo.org/en/latest", None),
+    "hunspellcheck": ("http://hunspellcheck.readthedocs.io/en/latest", None),
 }

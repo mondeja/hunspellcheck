@@ -47,7 +47,7 @@ def gen_available_dictionaries(full_paths=False):
 
 def list_available_dictionaries(full_paths=False):
     """Convenient wrapper around the generator
-    :py:func:`hunspellcheck.hunspell.dictionaries.gen_available_dictionaries`
+    :py:func:`hunspellcheck.gen_available_dictionaries`
     which returns the dictionary names in a list.
 
     Args:

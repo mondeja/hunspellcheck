@@ -53,7 +53,7 @@ class HunspellChecker:
             ignore custom words of being triggered as positives.
         looks_like_a_word (types.FunctionType): Function to filter the positive
             words from being considered positives. By default, the function
-            :py:func:`hunspell.spellchecker.looks_like_a_word` will be used,
+            :py:func:`hunspellcheck.looks_like_a_word` will be used,
             which will do a basic check.
         encoding (str): Input encoding. If not defined, it will be autodetected
             by hunspell.
