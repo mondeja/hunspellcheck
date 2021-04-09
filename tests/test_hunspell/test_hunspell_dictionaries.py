@@ -7,11 +7,17 @@ import types
 
 import pytest
 
+from hunspellcheck.exceptions import InvalidLanguageDictionaryError
 from hunspellcheck.hunspell.dictionaries import (
+    assert_is_valid_dictionary_language_or_filename,
     gen_available_dictionaries,
+    is_valid_dictionary_language_or_filename,
     list_available_dictionaries,
     print_available_dictionaries,
 )
+
+
+VALID_DICTIONARY_LANGUAGE = list_available_dictionaries()[0]
 
 
 def assert_dictionaries_list(dicts_list, full_paths=False):
@@ -66,3 +72,32 @@ def test_print_available_dictionaries(sort, stream, capsys, full_paths):
         assert available_dictionaries_list == sorted(expected_dictionaries_list)
     else:
         assert available_dictionaries_list == expected_dictionaries_list
+
+
+@pytest.mark.parametrize(
+    ("value", "expected_result"),
+    (
+        ("setup.py", True),
+        ("foobarbazimpossible.totallycrazyname", False),
+        (VALID_DICTIONARY_LANGUAGE, True),
+    ),
+)
+def test_is_valid_dictionary_language_or_filename(value, expected_result):
+    assert is_valid_dictionary_language_or_filename(value) == expected_result
+
+
+@pytest.mark.parametrize(
+    ("value", "expected_error"),
+    (
+        (VALID_DICTIONARY_LANGUAGE, None),
+        ("foobarbazimpossible.totallycrazyname", InvalidLanguageDictionaryError),
+        (["foobarbazimpossible.totallycrazyname"], InvalidLanguageDictionaryError),
+    ),
+)
+def test_assert_is_valid_dictionary_language_or_filename(value, expected_error):
+    if expected_error is None:
+        assert_is_valid_dictionary_language_or_filename(value)
+    else:
+        with pytest.raises(expected_error) as exc:
+            assert_is_valid_dictionary_language_or_filename(value)
+        assert (value if isinstance(value, str) else value[0]) in str(exc.value)

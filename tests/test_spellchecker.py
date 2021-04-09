@@ -5,7 +5,7 @@ import tempfile
 
 import pytest
 
-from hunspellcheck import HunspellChecker
+from hunspellcheck.spellchecker import HunspellChecker, looks_like_a_word
 
 
 class TestHunspellChecker:
@@ -298,7 +298,7 @@ class TestHunspellChecker:
             (
                 {"bar.txt": "uyih calor iuej"},
                 "es_ES",
-                ["uyih\niuej"],
+                "uyih\niuej",
                 [],
             ),
             (
@@ -324,6 +324,13 @@ class TestHunspellChecker:
         expected_errors,
     ):
         personal_dicts = []
+
+        # passing personal_dicts as string
+        _personal_dicts_as_string = False
+        if isinstance(personal_dicts_contents, str):
+            _personal_dicts_as_string = True
+            personal_dicts_contents = [personal_dicts_contents]
+
         for personal_dict_content in personal_dicts_contents:
             personal_dict_filename = tempfile.NamedTemporaryFile().name
             if os.path.isfile(personal_dict_filename):
@@ -331,6 +338,9 @@ class TestHunspellChecker:
             with open(personal_dict_filename, "w") as f:
                 f.write(personal_dict_content)
             personal_dicts.append(personal_dict_filename)
+
+        if _personal_dicts_as_string:
+            personal_dicts = personal_dicts[0]
 
         spellchecker = HunspellChecker(
             filenames_contents,
@@ -347,5 +357,25 @@ class TestHunspellChecker:
 
         assert spellchecker.errors == len(expected_errors)
 
-        for personal_dict_filename in personal_dicts:
-            os.remove(personal_dict_filename)
+        if _personal_dicts_as_string:
+            os.remove(personal_dicts)
+        else:
+            for personal_dict_filename in personal_dicts:
+                os.remove(personal_dict_filename)
+
+
+@pytest.mark.parametrize(
+    ("value", "expected_result"),
+    (
+        ("1hello", False),
+        ("", False),
+        (None, False),
+        ("-hello", False),
+        ("hello-", False),
+        ("hello-good", True),
+        ("hello", True),
+        ("Hello", True),
+    ),
+)
+def test_look_like_a_word(value, expected_result):
+    assert looks_like_a_word(value) == expected_result

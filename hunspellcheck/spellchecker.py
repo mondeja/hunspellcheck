@@ -49,8 +49,9 @@ class HunspellChecker:
         filenames_contents (dict): Dictionary mapping filenames to content of
             those files.
         languages (list, str): Languages against will be checked the contents.
-        personal_dicts (str): Path to a file which would be a dictionary to
-            ignore custom words of being triggered as positives.
+        personal_dicts (str, list): Globs of files which would be dictionaries
+            with custom words to ignore from being triggered as positives. Can
+            be globs or files, as string or list of strings.
         looks_like_a_word (types.FunctionType): Function to filter the positive
             words from being considered positives. By default, the function
             :py:func:`hunspellcheck.looks_like_a_word` will be used,
@@ -210,7 +211,10 @@ def parse_hunspell_output(
                 _locals = locals()
                 yield ({field: _locals.get(field) for field in locals_yielder})
 
-    raise Unreachable("Got this one? I'm sorry, read XKCD 2200, then open an issue.")
+    raise Unreachable(
+        "This line shouldn't be reachable. Please, open an issue at"
+        " https://github.com/mondeja/hunspellcheck"
+    )  # pragma: no cover
 
 
 def render_hunspell_word_error(
