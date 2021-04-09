@@ -49,7 +49,7 @@ class HunspellChecker:
         filenames_contents (dict): Dictionary mapping filenames to content of
             those files.
         languages (list, str): Languages against will be checked the contents.
-        personal_dict (str): Path to a file which would be a dictionary to
+        personal_dicts (str): Path to a file which would be a dictionary to
             ignore custom words of being triggered as positives.
         looks_like_a_word (types.FunctionType): Function to filter the positive
             words from being considered positives. By default, the function
@@ -63,13 +63,13 @@ class HunspellChecker:
         self,
         filenames_contents,
         languages,
-        personal_dict=None,
+        personal_dicts=None,
         looks_like_a_word=looks_like_a_word,
         encoding=None,
     ):
         self.filenames_contents = filenames_contents
         self.languages = languages
-        self.personal_dict = personal_dict
+        self.personal_dicts = personal_dicts
         self.looks_like_a_word = looks_like_a_word
         self.errors = None
         self.encoding = encoding
@@ -121,7 +121,7 @@ class HunspellChecker:
             hunspell_spellcheck(
                 quote_for_hunspell("\n".join(self.filenames_contents.values())),
                 self.languages,
-                personal_dict=self.personal_dict,
+                personal_dicts=self.personal_dicts,
                 encoding=self.encoding,
             ),
             looks_like_a_word=self.looks_like_a_word,

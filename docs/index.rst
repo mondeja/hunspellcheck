@@ -15,10 +15,10 @@ Features
 
 * Graceful handling of missing dictionaries.
 * Custom dictionaries by filepath.
-* Personal dictionaries by filepath.
+* Multiple personal dictionaries by filepath.
 * Argument parsers building.
 * Well tested system calls to `hunspell`.
-
+* Well defined programatic interface for spellcheckers.
 
 .. toctree::
    :maxdepth: 3

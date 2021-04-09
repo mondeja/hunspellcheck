@@ -52,7 +52,7 @@ class TestHunspellCheckerTxtCLI(HunspellCheckerInterfaceUtil):
         spellchecker = HunspellChecker(
             filenames_contents=filenames_contents,
             languages=opts.languages,
-            personal_dict=opts.personal_dict,
+            personal_dicts=opts.personal_dicts,
         )
         for word_error in spellchecker.check():
             sys.stderr.write(f"{render_hunspell_word_error(word_error)}\n")
@@ -104,7 +104,7 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
         self,
         files,
         languages,
-        personal_dict=None,
+        personal_dicts=None,
         negotiate_languages=False,
         include_filename=True,
         include_line_number=True,
@@ -133,7 +133,7 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
         yield from HunspellChecker(
             filename_contents,
             languages,
-            personal_dict=personal_dict,
+            personal_dicts=personal_dicts,
             looks_like_a_word=looks_like_a_word,
         ).check(
             include_filename=include_filename,

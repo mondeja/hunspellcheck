@@ -23,7 +23,7 @@ def test_extend_argument_parser__languages(languages, option):
     extend_argument_parser(
         parser,
         languages=languages,
-        personal_dict=False,
+        personal_dicts=False,
         files=False,
     )
 
@@ -60,7 +60,7 @@ def test_extend_argument_parser__languages_name_or_flags(languages_name_or_flags
     extend_argument_parser(
         parser,
         languages_name_or_flags=languages_name_or_flags,
-        personal_dict=False,
+        personal_dicts=False,
         files=False,
     )
 
@@ -99,7 +99,7 @@ def test_extend_argument_parser__languages_kwargs(languages_kwargs):
     extend_argument_parser(
         parser,
         languages_kwargs=languages_kwargs,
-        personal_dict=False,
+        personal_dicts=False,
         files=False,
     )
 
@@ -115,7 +115,7 @@ def test_extend_argument_parser__negotiate_languages(negotiate_languages):
     extend_argument_parser(
         parser,
         negotiate_languages=negotiate_languages,
-        personal_dict=False,
+        personal_dicts=False,
         files=False,
     )
 
@@ -137,7 +137,7 @@ def test_HunspellDictionaryNegotiatorAction():
     extend_argument_parser(
         parser,
         negotiate_languages=True,
-        personal_dict=False,
+        personal_dicts=False,
         files=False,
     )
 

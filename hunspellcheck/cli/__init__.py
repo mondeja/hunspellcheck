@@ -4,7 +4,7 @@ import warnings
 
 from hunspellcheck.cli.files import FilesOrGlobsAction
 from hunspellcheck.cli.languages import create_hunspell_valid_dictionary_action
-from hunspellcheck.cli.personal_dict import PersonalDictionaryAction
+from hunspellcheck.cli.personal_dicts import PersonalDictionaryAction
 from hunspellcheck.cli.version import DEFAULT_VERSION_TEMPLATE, render_version_template
 
 
@@ -25,9 +25,9 @@ def extend_argument_parser(
     languages_name_or_flags=["-l", "--language"],
     languages_kwargs={},
     negotiate_languages=True,
-    personal_dict=True,
-    personal_dict_name_or_flags=["-p", "--personal-dict"],
-    personal_dict_kwargs={},
+    personal_dicts=True,
+    personal_dicts_name_or_flags=["-p", "--personal-dict"],
+    personal_dicts_kwargs={},
 ):
     """Extends a :py:class:`argparse.ArgumentParser` instance adding
     spellchecking common parameters.
@@ -41,8 +41,9 @@ def extend_argument_parser(
       passed language is recognized by Hunspell (or if is a dictionary file, if
       exists), and in case that not, will print a list with all available
       dictionaries.
-    * An optional argument ``-p/--personal-dict`` which takes a path to a file
-      used to exclude words from beign triggered as positives.
+    * An optional argument ``-p/--personal-dict`` that could be passed multiple
+      times which takes a path to a file used to exclude certain words from
+      being triggered as positives.
 
     Args:
         version (bool): Include a convenient ``--version`` option that will
@@ -97,12 +98,12 @@ def extend_argument_parser(
             :py:meth:`babel.core.Locale.negotiate`. If is disabled, a language
             dictionary passed as locale code like `es` will be considered
             invalid.
-        personal_dict (bool): Include the ``-p/--personal-dict`` option inside
+        personal_dicts (bool): Include the ``-p/--personal-dict`` option inside
             the argument parser.
-        personal_dict_name_or_flags (list, str): Flag name defined constructing
+        personal_dicts_name_or_flags (list, str): Flag name defined constructing
             the ``-p/--personal-dict`` option using the method
             :py:meth:`argparse.ArgumentParser.add_argument`.
-        personal_dict_kwargs (dict): Optional kwargs which override the default
+        personal_dicts_kwargs (dict): Optional kwargs which override the default
             kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
             constructing the ``-p/--personal-dict`` option.
 
@@ -175,20 +176,20 @@ def extend_argument_parser(
 
         parser.add_argument(*languages_name_or_flags, **_languages_kwargs)
 
-    if personal_dict:
-        _personal_dict_kwargs = {
+    if personal_dicts:
+        _personal_dicts_kwargs = {
             "type": str,
             "required": False,
             "metavar": "PERSONAL_DICTIONARY",
-            "dest": "personal_dict",
+            "dest": "personal_dicts",
             "help": "Additional dictionary to extend the words to exclude.",
             "action": PersonalDictionaryAction,
             "nargs": 1,
             "default": None,
         }
-        _personal_dict_kwargs.update(personal_dict_kwargs)
+        _personal_dicts_kwargs.update(personal_dicts_kwargs)
 
-        if isinstance(personal_dict_name_or_flags, str):
-            personal_dict_name_or_flags = [personal_dict_name_or_flags]
+        if isinstance(personal_dicts_name_or_flags, str):
+            personal_dicts_name_or_flags = [personal_dicts_name_or_flags]
 
-        parser.add_argument(*personal_dict_name_or_flags, **_personal_dict_kwargs)
+        parser.add_argument(*personal_dicts_name_or_flags, **_personal_dicts_kwargs)

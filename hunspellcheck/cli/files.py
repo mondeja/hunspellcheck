@@ -1,38 +1,21 @@
 """Files positional argument related stuff for hunspellcheck CLI utilities."""
 
+import copy
 import glob
-from argparse import _AppendAction
+from argparse import Action
 
 
-try:
-    from argparse import _copy_items
-except ImportError:
+class FilesOrGlobsAction(Action):
+    """Prior to Python3.8, the argarse module does not include the
+    `_ExtendAction`, so here we are replicating their behaviour.
 
-    def _copy_items(items):
-        if items is None:
-            return []
-        if type(items) is list:
-            return items[:]
-        import copy
+    If the library stops supporting Python < 3.8, might be useful simplify
+    this code using `_ExtendAction` with a super call passing as the extended
+    filenames as values.
+    """
 
-        return copy.copy(items)
-
-
-try:
-    from argparse import _ExtendAction
-except ImportError:
-
-    class _ExtendAction(_AppendAction):
-        def __call__(self, parser, namespace, values, option_string=None):
-            items = getattr(namespace, self.dest, None)
-            items = _copy_items(items)
-            items.extend(values)
-            setattr(namespace, self.dest, items)
-
-
-class FilesOrGlobsAction(_ExtendAction):
     def __call__(self, parser, namespace, values, option_string=None):
-        filenames = []
+        items = copy.copy(getattr(namespace, self.dest, []) or [])
         for value in values:
-            filenames.extend(glob.glob(value))
-        super().__call__(parser, namespace, filenames, option_string=option_string)
+            items.extend(glob.glob(value))
+        setattr(namespace, self.dest, items)

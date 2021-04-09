@@ -19,7 +19,7 @@ def test_extend_argument_parser__files(files):
         parser,
         files=files,
         languages=False,
-        personal_dict=False,
+        personal_dicts=False,
     )
 
     tempdir = tempfile.gettempdir()
@@ -29,8 +29,7 @@ def test_extend_argument_parser__files(files):
     ]
 
     for filename in filenames:
-        with open(filename, "w") as f:
-            f.write("")
+        os.mknod(filename)
 
     if files:
         opts = parser.parse_args([filenames[0]])
@@ -75,7 +74,7 @@ def test_extend_argument_parser__files_kwargs(files_kwargs):
         parser,
         files_kwargs=files_kwargs,
         languages=False,
-        personal_dict=False,
+        personal_dicts=False,
     )
 
     files_action = parser._optionals._actions[-1]
@@ -89,7 +88,7 @@ def test_FilesOrGlobsAction():
     extend_argument_parser(
         parser,
         languages=False,
-        personal_dict=False,
+        personal_dicts=False,
     )
 
     tempdir = tempfile.gettempdir()
@@ -105,8 +104,7 @@ def test_FilesOrGlobsAction():
         for filename in ("bar.txt", "baz.py", "foo.txt")
     ]
     for filename in foo_filenames:
-        with open(filename, "w") as f:
-            f.write("")
+        os.mknod(filename)
 
     opts = parser.parse_args([os.path.join(hunspellcheck_foo_tempdir, "*.txt")])
     files = sorted(opts.files)
@@ -125,8 +123,7 @@ def test_FilesOrGlobsAction():
         for filename in ("bar.txt", "baz.py", "foo.txt")
     ]
     for filename in bar_filenames:
-        with open(filename, "w") as f:
-            f.write("")
+        os.mknod(filename)
 
     opts = parser.parse_args(
         [

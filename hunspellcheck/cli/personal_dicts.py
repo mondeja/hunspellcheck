@@ -4,7 +4,7 @@ import argparse
 import os
 
 
-class PersonalDictionaryAction(argparse._StoreAction):
+class PersonalDictionaryAction(argparse._AppendAction):
     def __call__(self, parser, namespace, values, option_string=None):
         filename = values[0]
         if not os.path.isfile(filename):

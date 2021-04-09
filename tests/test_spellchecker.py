@@ -278,14 +278,14 @@ class TestHunspellChecker:
         (
             "filenames_contents",
             "language_dicts",
-            "personal_dict_content",
+            "personal_dicts_contents",
             "expected_errors",
         ),
         (
             (
                 {"foo.txt": "hola hoal hiul"},
                 "es_ES",
-                "hoal",
+                ["hoal"],
                 [
                     {
                         "filename": "foo.txt",
@@ -298,28 +298,44 @@ class TestHunspellChecker:
             (
                 {"bar.txt": "uyih calor iuej"},
                 "es_ES",
-                "uyih\niuej",
+                ["uyih\niuej"],
                 [],
+            ),
+            (
+                {"foo.txt": "hola hoal iuli ythu"},
+                "es_ES",
+                ["hoal", "iuli"],
+                [
+                    {
+                        "filename": "foo.txt",
+                        "line_number": 1,
+                        "word": "ythu",
+                        "word_line_index": 15,
+                    }
+                ],
             ),
         ),
     )
-    def test_personal_dict(
+    def test_personal_dicts(
         self,
         filenames_contents,
         language_dicts,
-        personal_dict_content,
+        personal_dicts_contents,
         expected_errors,
     ):
-        personal_dict_filename = tempfile.NamedTemporaryFile().name
-        if os.path.isfile(personal_dict_filename):
-            os.remove(personal_dict_filename)
-        with open(personal_dict_filename, "w") as f:
-            f.write(personal_dict_content)
+        personal_dicts = []
+        for personal_dict_content in personal_dicts_contents:
+            personal_dict_filename = tempfile.NamedTemporaryFile().name
+            if os.path.isfile(personal_dict_filename):
+                os.remove(personal_dict_filename)
+            with open(personal_dict_filename, "w") as f:
+                f.write(personal_dict_content)
+            personal_dicts.append(personal_dict_filename)
 
         spellchecker = HunspellChecker(
             filenames_contents,
             language_dicts,
-            personal_dict=personal_dict_filename,
+            personal_dicts=personal_dicts,
         )
 
         error_index = 0
@@ -331,4 +347,5 @@ class TestHunspellChecker:
 
         assert spellchecker.errors == len(expected_errors)
 
-        os.remove(personal_dict_filename)
+        for personal_dict_filename in personal_dicts:
+            os.remove(personal_dict_filename)
