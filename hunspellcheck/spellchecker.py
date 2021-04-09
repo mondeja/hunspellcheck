@@ -63,7 +63,6 @@ class HunspellChecker:
         languages,
         personal_dict=None,
         looks_like_a_word=looks_like_a_word,
-        check_languages=False,
     ):
         self.filenames_contents = filenames_contents
         self.languages = languages

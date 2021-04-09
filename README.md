@@ -8,7 +8,7 @@
 
 ## [Documentation][documentation-link]
 
-## Acknowledgment
+### Acknowledgment
 
 - [AFPy](https://github.com/AFPy) because
  [pospell](https://github.com/AFPy/pospell) has been the main inspiration for
