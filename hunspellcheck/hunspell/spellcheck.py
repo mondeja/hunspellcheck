@@ -3,7 +3,12 @@
 import subprocess
 
 
-def hunspell_spellcheck(content, language_dicts, personal_dict=None):
+def hunspell_spellcheck(
+    content,
+    language_dicts,
+    personal_dict=None,
+    encoding=None,
+):
     """Call hunspell for spellchecing.
 
     Args:
@@ -12,6 +17,8 @@ def hunspell_spellcheck(content, language_dicts, personal_dict=None):
             be defined as files) used to check errors.
         personal_dict (str): Personal dictionary used to exclude valid words
             from being notified as errors.
+        encoding (str): Input encoding passed to Hunspell. If is defined, the
+            option ``-i`` will be passed to hunspell system call.
 
     Returns:
         str: Hunspell standard output.
@@ -22,6 +29,8 @@ def hunspell_spellcheck(content, language_dicts, personal_dict=None):
     command = ["hunspell", "-d", language_dicts, "-a"]
     if personal_dict:
         command.extend(["-p", personal_dict])
+    if encoding:
+        command.extend(["-i"], encoding)
 
     return subprocess.run(
         command,

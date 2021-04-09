@@ -55,6 +55,8 @@ class HunspellChecker:
             words from being considered positives. By default, the function
             :py:func:`hunspell.spellchecker.looks_like_a_word` will be used,
             which will do a basic check.
+        encoding (str): Input encoding. If not defined, it will be autodetected
+            by hunspell.
     """
 
     def __init__(
@@ -63,12 +65,14 @@ class HunspellChecker:
         languages,
         personal_dict=None,
         looks_like_a_word=looks_like_a_word,
+        encoding=None,
     ):
         self.filenames_contents = filenames_contents
         self.languages = languages
         self.personal_dict = personal_dict
         self.looks_like_a_word = looks_like_a_word
         self.errors = None
+        self.encoding = encoding
 
     def check(
         self,
@@ -118,6 +122,7 @@ class HunspellChecker:
                 quote_for_hunspell("\n".join(self.filenames_contents.values())),
                 self.languages,
                 personal_dict=self.personal_dict,
+                encoding=self.encoding,
             ),
             looks_like_a_word=self.looks_like_a_word,
             include_filename=include_filename,
