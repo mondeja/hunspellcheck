@@ -19,7 +19,7 @@ from hunspellcheck.spellchecker import (
 )
 
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __title__ = "hunspellcheck"
 __all__ = (
     "HunspellChecker",

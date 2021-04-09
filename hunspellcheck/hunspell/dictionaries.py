@@ -23,7 +23,7 @@ def gen_available_dictionaries(full_paths=False):
     Yields:
         str: Dictionary names (locale with territory).
     """
-    previous_env_lang = os.environ.get("LANG", "")
+    previous_env_lang = os.environ.get("LANG", None)
     os.environ["LANG"] = "C"
 
     output = subprocess.run(
@@ -32,7 +32,10 @@ def gen_available_dictionaries(full_paths=False):
         universal_newlines=True,
     )
 
-    os.environ["LANG"] = previous_env_lang
+    if previous_env_lang is None:
+        del os.environ["LANG"]
+    else:
+        os.environ["LANG"] = previous_env_lang
 
     _inside_available_dictionaries = False
     for line in output.stderr.splitlines():

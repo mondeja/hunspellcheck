@@ -22,7 +22,7 @@ def get_hunspell_version(hunspell=True, ispell=True):
             "At least one of optional arguments 'hunspell' or 'ispell' must be true."
         )
 
-    previous_env_lang = os.environ.get("LANG", "")
+    previous_env_lang = os.environ.get("LANG", None)
     os.environ["LANG"] = "C"
 
     output = subprocess.run(
@@ -31,7 +31,10 @@ def get_hunspell_version(hunspell=True, ispell=True):
         universal_newlines=True,
     )
 
-    os.environ["LANG"] = previous_env_lang
+    if previous_env_lang is None:
+        del os.environ["LANG"]
+    else:
+        os.environ["LANG"] = previous_env_lang
 
     version_line = output.stdout.splitlines()[0]
 
