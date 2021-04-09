@@ -1,14 +1,13 @@
 """Personal dictionary CLI option stuff."""
 
 import argparse
-import os
+import copy
+import glob
 
 
-class PersonalDictionaryAction(argparse._AppendAction):
+class PersonalDictionaryAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
-        filename = values[0]
-        if not os.path.isfile(filename):
-            raise FileNotFoundError(
-                f'Personal dictionary file not found at "{filename}"'
-            )
-        super().__call__(parser, namespace, filename, option_string=option_string)
+        items = copy.copy(getattr(namespace, self.dest, []) or [])
+        for value in values:
+            items.extend(glob.glob(value))
+        setattr(namespace, self.dest, items)

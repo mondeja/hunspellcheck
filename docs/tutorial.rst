@@ -74,7 +74,7 @@ You can see the usage passing ``--help`` option to this script:
      -l LANGUAGE, --languages LANGUAGE
                            Language to check, you'll have to install the corresponding hunspell dictionary.
      -p PERSONAL_DICTIONARY, --personal-dict PERSONAL_DICTIONARY
-                           Additional dictionary to extend the words to exclude.
+                           Additional dictionaries to extend the words to exclude.
 
 
 To use it, just create a ``.txt`` file and pass its filename as positional

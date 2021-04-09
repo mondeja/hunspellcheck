@@ -1,11 +1,11 @@
 """Files positional argument related stuff for hunspellcheck CLI utilities."""
 
+import argparse
 import copy
 import glob
-from argparse import Action
 
 
-class FilesOrGlobsAction(Action):
+class FilesOrGlobsAction(argparse.Action):
     """Prior to Python3.8, the argarse module does not include the
     `_ExtendAction`, so here we are replicating their behaviour.
 

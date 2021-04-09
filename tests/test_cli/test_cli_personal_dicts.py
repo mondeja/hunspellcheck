@@ -4,6 +4,7 @@ import argparse
 import contextlib
 import io
 import os
+import shutil
 import tempfile
 import uuid
 
@@ -128,7 +129,7 @@ def test_PersonalDictionaryAction():
     assert len(opts.personal_dicts) == 1
     assert opts.personal_dicts[0] == foo_dict_filename
 
-    # multiple files
+    # multiple files by filepath
     bar_dict_filename = tempfile.NamedTemporaryFile().name
     with open(bar_dict_filename, "w") as f:
         f.write("bar")
@@ -140,8 +141,34 @@ def test_PersonalDictionaryAction():
 
     # non existent file
     os.remove(foo_dict_filename)
-    with pytest.raises(FileNotFoundError) as err:
-        parser.parse_args(["-p", foo_dict_filename])
-    assert f'Personal dictionary file not found at "{foo_dict_filename}"' in (
-        str(err.value),
+    os.remove(bar_dict_filename)
+    opts = parser.parse_args(["-p", foo_dict_filename])
+    assert len(opts.personal_dicts) == 0
+
+    # multiple files by globs
+    tempdir = tempfile.gettempdir()
+    dicts_dirs = {"foo": None, "bar": None}
+    for dirname in dicts_dirs:
+        dicts_dir = os.path.join(tempdir, f"hunspellcheck-{dirname}")
+        if os.path.isdir(dicts_dir):
+            shutil.rmtree(dicts_dir)
+        os.mkdir(dicts_dir)
+        dicts_dirs[dirname] = dicts_dir
+        for filename in ["foo.txt", "bar.txt"]:
+            filepath = os.path.join(dicts_dir, filename)
+            if os.path.isfile(filepath):
+                os.remove(filepath)
+            os.mknod(filepath)
+
+    opts = parser.parse_args(
+        [
+            "-p",
+            os.path.join(tempdir, "hunspellcheck-foo", "*.txt"),
+            "-p",
+            os.path.join(tempdir, "hunspellcheck-bar", "*.txt"),
+        ]
     )
+    assert len(opts.personal_dicts) == 4
+
+    for dirname, dirpath in dicts_dirs.items():
+        shutil.rmtree(dirpath)

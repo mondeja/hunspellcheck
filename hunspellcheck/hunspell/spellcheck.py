@@ -1,5 +1,6 @@
 """Spell checking system calls to Hunspell."""
 
+import glob
 import os
 import subprocess
 import tempfile
@@ -53,11 +54,12 @@ def hunspell_spellcheck(
                 if os.path.isfile(temporal_personal_dict_filename):
                     os.remove(temporal_personal_dict_filename)
                 os.mknod(temporal_personal_dict_filename)
-                for personal_dict in personal_dicts:
-                    with open(
-                        temporal_personal_dict_filename, "a"
-                    ) as compound_dict_f, open(personal_dict) as partial_dict_f:
-                        compound_dict_f.write(f"{partial_dict_f.read()}\n")
+                for personal_dict_glob in personal_dicts:
+                    for personal_dict in glob.glob(personal_dict_glob):
+                        with open(
+                            temporal_personal_dict_filename, "a"
+                        ) as compound_dict_f, open(personal_dict) as partial_dict_f:
+                            compound_dict_f.write(f"{partial_dict_f.read()}\n")
                 command.extend(["-p", temporal_personal_dict_filename])
 
     if encoding:

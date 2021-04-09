@@ -182,7 +182,7 @@ def extend_argument_parser(
             "required": False,
             "metavar": "PERSONAL_DICTIONARY",
             "dest": "personal_dicts",
-            "help": "Additional dictionary to extend the words to exclude.",
+            "help": "Additional dictionaries to extend the words to exclude.",
             "action": PersonalDictionaryAction,
             "nargs": 1,
             "default": None,
