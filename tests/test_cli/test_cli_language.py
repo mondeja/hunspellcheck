@@ -45,7 +45,7 @@ def test_extend_argument_parser__languages(languages, option):
 
 
 @pytest.mark.parametrize(
-    "languages_args",
+    "languages_name_or_flags",
     (
         ["--lang"],
         ["-d", "--dictionary"],
@@ -55,17 +55,17 @@ def test_extend_argument_parser__languages(languages, option):
         "-d/--dictionary",
     ),
 )
-def test_extend_argument_parser__languages_args(languages_args):
+def test_extend_argument_parser__languages_name_or_flags(languages_name_or_flags):
     parser = argparse.ArgumentParser()
     extend_argument_parser(
         parser,
-        languages_args=languages_args,
+        languages_name_or_flags=languages_name_or_flags,
         personal_dict=False,
         files=False,
     )
 
     # language options matching
-    for language_arg in languages_args:
+    for language_arg in languages_name_or_flags:
         opts = parser.parse_args([language_arg, "en_US"])
         assert len(opts.languages) == 1
         assert opts.languages[0] == "en_US"
@@ -75,7 +75,7 @@ def test_extend_argument_parser__languages_args(languages_args):
     with contextlib.redirect_stderr(stderr), pytest.raises(SystemExit):
         parser.parse_args([f"--{uuid.uuid4().hex[:8]}", "en_US"])
 
-    args_string = "/".join(languages_args)
+    args_string = "/".join(languages_name_or_flags)
     expected_message = f"the following arguments are required: {args_string}"
     assert expected_message in stderr.getvalue()
 

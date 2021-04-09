@@ -4,6 +4,8 @@ import os
 import subprocess
 import sys
 
+from babel import Locale
+
 
 def gen_available_dictionaries(full_paths=False):
     """Generates the available dictionaries contained inside the search paths
@@ -15,6 +17,9 @@ def gen_available_dictionaries(full_paths=False):
     Args:
         full_paths (bool): Yield complete paths to dictionaries (``True``) or
             their names only (``False``).
+
+    Yields:
+        str: Dictionary names (locale with territory).
     """
     previous_env_lang = os.environ.get("LANG", "")
     os.environ["LANG"] = "C"
@@ -35,14 +40,22 @@ def gen_available_dictionaries(full_paths=False):
             _inside_available_dictionaries = True
 
 
-def list_available_dictionaries(**kwargs):
+def list_available_dictionaries(full_paths=False):
     """Convenient wrapper around the generator
     :py:func:`hunspellcheck.hunspell.dictionaries.gen_available_dictionaries`
-    which returns the dictionary names in a list."""
-    return list(gen_available_dictionaries(**kwargs))
+    which returns the dictionary names in a list.
+
+    Args:
+        full_paths (bool): Print complete paths to dictionaries (``True``) or
+            their names only (``False``).
+
+    Returns:
+        list: Available installed dictionaries.
+    """
+    return list(gen_available_dictionaries(full_paths=full_paths))
 
 
-def print_available_dictionaries(sort=True, stream=sys.stdout, **kwargs):
+def print_available_dictionaries(sort=True, stream=sys.stdout, full_paths=False):
     """Prints into an stream the available hunspell dictionaries.
 
     By default are printed to the standard output of the system (STDOUT).
@@ -52,17 +65,19 @@ def print_available_dictionaries(sort=True, stream=sys.stdout, **kwargs):
             alphabetical order.
         stream (object): Stream to which the dictionaries will be printed.
             Must be any object that accepts a `write` method.
+        full_paths (bool): Print complete paths to dictionaries (``True``) or
+            their names only (``False``).
     """
     if sort:
-        dictionaries_iter = sorted(list_available_dictionaries(**kwargs))
+        dictionaries_iter = sorted(list_available_dictionaries(full_paths=full_paths))
     else:
-        dictionaries_iter = gen_available_dictionaries(**kwargs)
+        dictionaries_iter = gen_available_dictionaries(full_paths=full_paths)
 
     for dictname in dictionaries_iter:
         stream.write(f"{dictname}\n")
 
 
-def gen_available_dictionaries_with_langcodes(sort=True, **kwargs):
+def gen_available_dictionaries_with_langcodes(sort=True, full_paths=False):
     """Generates all available dictionaries installed along with their
     locale names (without territories).
 
@@ -71,8 +86,11 @@ def gen_available_dictionaries_with_langcodes(sort=True, **kwargs):
 
     Args:
         sort (bool): Sort languages alfabetically.
+
+    Yields:
+        str: Locale or dictionary names (locale with territory).
     """
-    dictionaries_iter = gen_available_dictionaries(**kwargs)
+    dictionaries_iter = gen_available_dictionaries(full_paths=full_paths)
     if sort:
         dictionaries_iter = sorted(dictionaries_iter)
     unique_locales = []
@@ -83,3 +101,31 @@ def gen_available_dictionaries_with_langcodes(sort=True, **kwargs):
                 unique_locales.append(locale)
                 yield locale
         yield dictname
+
+
+def is_valid_dictionary_language(dictionary_name, negotiate_languages=False):
+    """Check if a dictionary name is a valid dictionary installed
+    for your Hunspell version.
+
+    Args:
+        dictionary_name (str): Dictionary language.
+        negotiate_languages (bool): Enable language negotiation from locale
+            name to territory.
+
+    Returns:
+        tuple: Has 3 values:
+
+        - The first value is a boolean and indicates if the language is valid.
+        - The second value is the dictionary language name, which could be
+          changed from the input is language negotation is enabled.
+        - The third value is a list with all available dictionaries.
+    """
+    available_dictionaries = list_available_dictionaries()
+    if dictionary_name not in available_dictionaries:
+        if negotiate_languages:
+            dictionary_name = str(
+                Locale.negotiate([dictionary_name], available_dictionaries)
+            )
+        else:
+            return (False, None, available_dictionaries)
+    return (True, dictionary_name, available_dictionaries)

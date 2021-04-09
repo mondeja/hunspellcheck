@@ -40,7 +40,7 @@ def test_extend_argument_parser__version(version, option):
 
 
 @pytest.mark.parametrize(
-    "version_args",
+    "version_name_or_flags",
     (
         ["--vers"],
         ["-v", "--give-me-the-version"],
@@ -50,12 +50,12 @@ def test_extend_argument_parser__version(version, option):
         "-v/--give-me-the-version",
     ),
 )
-def test_extend_argument_parser__version_args(version_args):
+def test_extend_argument_parser__version_name_or_flags(version_name_or_flags):
     parser = argparse.ArgumentParser()
     extend_argument_parser(
         parser,
         version=True,
-        version_args=version_args,
+        version_name_or_flags=version_name_or_flags,
         version_number="1.0.0",
         version_prog="foo",
         hunspell_version=False,
@@ -66,7 +66,7 @@ def test_extend_argument_parser__version_args(version_args):
     )
 
     # version options matching
-    for version_arg in version_args:
+    for version_arg in version_name_or_flags:
         stdout = io.StringIO()
         with contextlib.redirect_stdout(stdout), pytest.raises(SystemExit):
             parser.parse_args([version_arg])

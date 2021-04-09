@@ -5,6 +5,7 @@ This module contains all the spellchecking logic.
 
 import string
 
+from hunspellcheck.exceptions import Unreachable
 from hunspellcheck.hunspell.spellcheck import hunspell_spellcheck
 
 
@@ -20,23 +21,23 @@ ERROR_FIELDS = [
 ]
 
 
-class HunspellCheckException(Exception):
-    """All exceptions from this module inherit from this one."""
-
-
-class Unreachable(HunspellCheckException):
-    """The code encontered a state that should be unreachable."""
-
-
-def looks_like_a_word(word):
+def looks_like_a_word(text):
     """Return True if the given str looks like a word.
 
     Used to filter out non-words like `---` or `-0700` so they don't
     get reported. They typically are not errors.
+
+    Args:
+        word (str): Text to check if is a word.
+
+    Returns:
+        bool: ``True`` if the input looks like a word, ``False`` instead.
     """
-    if not word:
+    if not text:
         return False
-    if any(digit in word for digit in string.digits):
+    if any(digit in text for digit in string.digits):
+        return False
+    if text.startswith("-") or text.endswith("-"):
         return False
     return True
 
@@ -47,7 +48,13 @@ class HunspellChecker:
     Args:
         filenames_contents (dict): Dictionary mapping filenames to content of
             those files.
-        languages ()
+        languages (list, str): Languages against will be checked the contents.
+        personal_dict (str): Path to a file which would be a dictionary to
+            ignore custom words of being triggered as positives.
+        looks_like_a_word (types.FunctionType): Function to filter the positive
+            words from being considered positives. By default, the function
+            :py:func:`hunspell.spellchecker.looks_like_a_word` will be used,
+            which will do a basic check.
     """
 
     def __init__(
@@ -74,6 +81,37 @@ class HunspellChecker:
         include_error_number=False,
         include_near_misses=False,
     ):
+        """Spellchecking function.
+
+        Yields each mispelled word data found in contents from a generator. The
+        data generated for each word depends on the optional arguments
+        ``include_<field>`` passed to this function, being ``field`` the name
+        of the field inside the yielded dictionary.
+
+        Args:
+            include_filename (bool): Includes filename where the mispelled word
+                has been found in yielded error data.
+            include_line_number (bool): Includes the line number where the
+                mispelled word has been found in the content for the yielded
+                error data.
+            include_word (bool): Includes the mispelled word found in the
+                yielded error data.
+            include_word_line_index (bool): Includes the index of the caracter
+                in which the mispelled word starts in their line (starting at
+                index 0).
+            include_line (bool): Includes the entire line where the mispelled
+                word resides inside the content.
+            include_text (bool): Includes the full text of the content in where
+                the mispelled word resides.
+            include_error_number (bool): Include the number of the error in
+                yielded data. This could be useful to avoid the need of define
+                a counter.
+            include_near_misses (bool): Includes a list with the near misses
+                for the mispelled word.
+
+        Yields:
+            dict: Dictionary with all the included data for each mispelled word.
+        """
         self.errors = yield from parse_hunspell_output(
             self.filenames_contents,
             hunspell_spellcheck(
@@ -98,7 +136,13 @@ def quote_for_hunspell(text):
 
     Quoting Hunspell's manpage: "It is recommended that programmatic interfaces
     prefix every data line with an uparrow to protect themselves against future
-    changes in hunspell.
+    changes in hunspell."
+
+    Args:
+        text (str): Text to be quoted.
+
+    Returns:
+        str: Text quoted as Hunspell recommends.
     """
     response = []
     for line in text.splitlines():
@@ -169,6 +213,20 @@ def render_hunspell_word_error(
     fields=["filename", "word", "line_number", "word_line_index"],
     sep=":",
 ):
+    """Renders a mispelled word data dictionary.
+
+    This function allows a convenient way to render each mispelled word data
+    dictionary as a string, that could be useful to print using spell checkers.
+
+    Args:
+        data (dict): Mispelled word data, as is yielded by
+            :py:meth:`HunspellChecker.check`.
+        fields (list): List of field to include in the response.
+        sep (str): Separator string between each field value.
+
+    Returns:
+        str: Mispelled word data as a string.
+    """
     values = []
     for field in fields:
         value = data.get(field)

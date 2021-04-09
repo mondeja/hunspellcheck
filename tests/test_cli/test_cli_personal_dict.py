@@ -40,7 +40,7 @@ def test_extend_argument_parser__personal_dict(personal_dict, option):
 
 
 @pytest.mark.parametrize(
-    "personal_dict_args",
+    "personal_dict_name_or_flags",
     (
         ["--pdict"],
         ["-d", "--dictionary"],
@@ -50,11 +50,13 @@ def test_extend_argument_parser__personal_dict(personal_dict, option):
         "-d/--dictionary",
     ),
 )
-def test_extend_argument_parser__personal_dict_args(personal_dict_args):
+def test_extend_argument_parser__personal_dict_name_or_flags(
+    personal_dict_name_or_flags,
+):
     parser = argparse.ArgumentParser()
     extend_argument_parser(
         parser,
-        personal_dict_args=personal_dict_args,
+        personal_dict_name_or_flags=personal_dict_name_or_flags,
         languages=False,
         files=False,
     )
@@ -62,7 +64,7 @@ def test_extend_argument_parser__personal_dict_args(personal_dict_args):
     personal_dict_file = tempfile.NamedTemporaryFile()
 
     # personal_dict options matching
-    for personal_dict_arg in personal_dict_args:
+    for personal_dict_arg in personal_dict_name_or_flags:
         opts = parser.parse_args([personal_dict_arg, personal_dict_file.name])
         assert opts.personal_dict == personal_dict_file.name
 

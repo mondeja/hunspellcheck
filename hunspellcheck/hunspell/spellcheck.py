@@ -8,7 +8,7 @@ def hunspell_spellcheck(content, language_dicts, personal_dict=None):
 
     Args:
         content (str): Content to check for words not included in dictionaries.
-        language_dicts (list/str): Language or languages dictionaries (could
+        language_dicts (list, str): Language or languages dictionaries (could
             be defined as files) used to check errors.
         personal_dict (str): Personal dictionary used to exclude valid words
             from being notified as errors.
