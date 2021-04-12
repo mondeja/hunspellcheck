@@ -209,7 +209,14 @@ def parse_hunspell_output(
             if looks_like_a_word(word):
                 error_number += 1
                 _locals = locals()
-                yield ({field: _locals.get(field) for field in locals_yielder})
+                yielded_content = {}
+                for field in locals_yielder:
+                    value = _locals.get(field)
+                    if value:
+                        yielded_content[field] = value
+                    elif not isinstance(value, (str, list)):
+                        yielded_content[field] = value
+                yield yielded_content
 
     raise Unreachable(
         "This line shouldn't be reachable. Please, open an issue at"
