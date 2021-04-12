@@ -14,7 +14,7 @@ import pytest
 from hunspellcheck import (
     HunspellChecker,
     assert_is_valid_dictionary_language_or_filename,
-    extend_argument_parser,
+    hunspellchecker_argument_parser,
     looks_like_a_word,
     render_hunspell_word_error,
 )
@@ -34,7 +34,7 @@ class HunspellCheckerInterfaceUtil:
 class TestHunspellCheckerTxtCLI(HunspellCheckerInterfaceUtil):
     def build_parser(self):
         parser = argparse.ArgumentParser()
-        extend_argument_parser(
+        hunspellchecker_argument_parser(
             parser,
             version=True,
             version_number="1.0.0",

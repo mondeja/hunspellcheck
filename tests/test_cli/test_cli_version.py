@@ -10,14 +10,14 @@ import uuid
 
 import pytest
 
-from hunspellcheck.cli import extend_argument_parser
+from hunspellcheck.cli import hunspellchecker_argument_parser
 
 
 @pytest.mark.parametrize("version", (True, False))
 @pytest.mark.parametrize("option", ("--version",))
-def test_extend_argument_parser__version(version, option):
+def test_hunspellchecker_argument_parser__version(version, option):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         version=version,
         languages=False,
@@ -51,9 +51,9 @@ def test_extend_argument_parser__version(version, option):
         "-v/--give-me-the-version",
     ),
 )
-def test_extend_argument_parser__version_name_or_flags(version_name_or_flags):
+def test_hunspellchecker_argument_parser__version_name_or_flags(version_name_or_flags):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         version=True,
         version_name_or_flags=version_name_or_flags,
@@ -95,10 +95,10 @@ def test_extend_argument_parser__version_name_or_flags(version_name_or_flags):
     ),
     ids=("help,metavar", "dest"),
 )
-def test_extend_argument_parser__version_kwargs(version_kwargs):
+def test_hunspellchecker_argument_parser__version_kwargs(version_kwargs):
     parser = argparse.ArgumentParser()
 
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         version=True,
         version_kwargs=version_kwargs,
@@ -211,7 +211,7 @@ def test_extend_argument_parser__version_kwargs(version_kwargs):
         ),
     ),
 )
-def test_extend_argument_parser__version_default_template(
+def test_hunspellchecker_argument_parser__version_default_template(
     version_number,
     version_prog,
     hunspell_version,
@@ -219,7 +219,7 @@ def test_extend_argument_parser__version_default_template(
     regex_result,
 ):
     parser = argparse.ArgumentParser()
-    extend_argument_parser_kwargs = dict(
+    hunspellchecker_argument_parser_kwargs = dict(
         version=True,
         version_number=version_number,
         version_prog=version_prog,
@@ -234,7 +234,9 @@ def test_extend_argument_parser__version_default_template(
     # any ('--version' option not included)
     if not any([version_number, hunspell_version, ispell_version]):
         with pytest.warns(UserWarning) as record:
-            extend_argument_parser(parser, **extend_argument_parser_kwargs)
+            hunspellchecker_argument_parser(
+                parser, **hunspellchecker_argument_parser_kwargs
+            )
         assert record[0].message.args[0] == (
             "'--version' option not added because version string is empty!"
         )
@@ -244,7 +246,9 @@ def test_extend_argument_parser__version_default_template(
             parser.parse_args(["--version"])
         assert "error: unrecognized arguments: --version" in stderr.getvalue()
     else:
-        extend_argument_parser(parser, **extend_argument_parser_kwargs)
+        hunspellchecker_argument_parser(
+            parser, **hunspellchecker_argument_parser_kwargs
+        )
 
         stdout = io.StringIO()
         with contextlib.redirect_stdout(stdout), pytest.raises(SystemExit):

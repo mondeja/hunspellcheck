@@ -8,7 +8,7 @@ import uuid
 import pytest
 from babel import Locale
 
-from hunspellcheck.cli import extend_argument_parser
+from hunspellcheck.cli import hunspellchecker_argument_parser
 from hunspellcheck.hunspell.dictionaries import (
     gen_available_dictionaries,
     list_available_dictionaries,
@@ -17,10 +17,10 @@ from hunspellcheck.hunspell.dictionaries import (
 
 @pytest.mark.parametrize("languages", (True, False))
 @pytest.mark.parametrize("option", ("-l", "--language"))
-def test_extend_argument_parser__languages(languages, option):
-    """Test 'language' argument of 'extend_argument_parser' function."""
+def test_hunspellchecker_argument_parser__languages(languages, option):
+    """Test 'language' argument of 'hunspellchecker_argument_parser' function."""
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         languages=languages,
         personal_dicts=False,
@@ -56,9 +56,11 @@ def test_extend_argument_parser__languages(languages, option):
         "-d/--dictionary",
     ),
 )
-def test_extend_argument_parser__languages_name_or_flags(languages_name_or_flags):
+def test_hunspellchecker_argument_parser__languages_name_or_flags(
+    languages_name_or_flags,
+):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         languages_name_or_flags=languages_name_or_flags,
         personal_dicts=False,
@@ -95,10 +97,10 @@ def test_extend_argument_parser__languages_name_or_flags(languages_name_or_flags
     ),
     ids=("help,metavar", "dest"),
 )
-def test_extend_argument_parser__languages_kwargs(languages_kwargs):
+def test_hunspellchecker_argument_parser__languages_kwargs(languages_kwargs):
     parser = argparse.ArgumentParser()
 
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         languages_kwargs=languages_kwargs,
         personal_dicts=False,
@@ -113,9 +115,9 @@ def test_extend_argument_parser__languages_kwargs(languages_kwargs):
 
 
 @pytest.mark.parametrize("negotiate_languages", (True, False))
-def test_extend_argument_parser__negotiate_languages(negotiate_languages):
+def test_hunspellchecker_argument_parser__negotiate_languages(negotiate_languages):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         negotiate_languages=negotiate_languages,
         personal_dicts=False,
@@ -138,7 +140,7 @@ def test_extend_argument_parser__negotiate_languages(negotiate_languages):
 
 def test_HunspellDictionaryNegotiatorAction():
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         negotiate_languages=True,
         personal_dicts=False,

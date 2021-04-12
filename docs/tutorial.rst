@@ -16,7 +16,7 @@ Command line interface
    import sys
 
    from hunspellcheck import (
-       extend_argument_parser,
+       hunspellchecker_argument_parser,
        render_hunspell_word_error,
        HunspellChecker,
    )
@@ -24,7 +24,7 @@ Command line interface
 
    def build_parser():
        parser = argparse.ArgumentParser(description="TXT files spellchecker.")
-       extend_argument_parser(
+       hunspellchecker_argument_parser(
            parser,
            version=True,
            version_number="1.0.0",

@@ -9,13 +9,13 @@ import tempfile
 
 import pytest
 
-from hunspellcheck.cli import extend_argument_parser
+from hunspellcheck.cli import hunspellchecker_argument_parser
 
 
 @pytest.mark.parametrize("files", (True, False))
-def test_extend_argument_parser__files(files):
+def test_hunspellchecker_argument_parser__files(files):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         files=files,
         languages=False,
@@ -69,9 +69,9 @@ def test_extend_argument_parser__files(files):
     ),
     ids=("help,metavar", "dest"),
 )
-def test_extend_argument_parser__files_kwargs(files_kwargs):
+def test_hunspellchecker_argument_parser__files_kwargs(files_kwargs):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         files_kwargs=files_kwargs,
         languages=False,
@@ -87,7 +87,7 @@ def test_extend_argument_parser__files_kwargs(files_kwargs):
 
 def test_FilesOrGlobsAction():
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         languages=False,
         personal_dicts=False,

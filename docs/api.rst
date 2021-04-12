@@ -7,7 +7,7 @@ Public API
 CLI utilities
 ~~~~~~~~~~~~~
 
-.. autofunction:: hunspellcheck.extend_argument_parser
+.. autofunction:: hunspellcheck.hunspellchecker_argument_parser
 
 Spellchecker interface
 ~~~~~~~~~~~~~~~~~~~~~~

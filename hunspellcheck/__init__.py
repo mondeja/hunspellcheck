@@ -1,6 +1,6 @@
 """Hunspellcheck package."""
 
-from hunspellcheck.cli import extend_argument_parser
+from hunspellcheck.cli import hunspellchecker_argument_parser
 from hunspellcheck.exceptions import InvalidLanguageDictionaryError
 from hunspellcheck.hunspell.dictionaries import (
     assert_is_valid_dictionary_language_or_filename,
@@ -24,7 +24,7 @@ __title__ = "hunspellcheck"
 __all__ = (
     "HunspellChecker",
     "InvalidLanguageDictionaryError",
-    "extend_argument_parser",
+    "hunspellchecker_argument_parser",
     "gen_available_dictionaries",
     "gen_available_dictionaries_with_langcodes",
     "get_hunspell_version",

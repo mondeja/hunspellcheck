@@ -8,7 +8,7 @@ from hunspellcheck.cli.personal_dicts import PersonalDictionaryAction
 from hunspellcheck.cli.version import DEFAULT_VERSION_TEMPLATE, render_version_template
 
 
-def extend_argument_parser(
+def hunspellchecker_argument_parser(
     parser,
     version=False,
     version_prog=None,
@@ -124,7 +124,7 @@ def extend_argument_parser(
         >>> import argparse
         >>>
         >>> parser = argparse.ArgumentParser()
-        >>> extend_argument_parser(
+        >>> hunspellchecker_argument_parser(
         ...     version=True,
         ...     version_number="1.0.0",
         ... )

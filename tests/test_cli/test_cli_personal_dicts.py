@@ -10,14 +10,14 @@ import uuid
 
 import pytest
 
-from hunspellcheck.cli import extend_argument_parser
+from hunspellcheck.cli import hunspellchecker_argument_parser
 
 
 @pytest.mark.parametrize("personal_dicts", (True, False))
 @pytest.mark.parametrize("option", ("-p", "--personal-dict"))
-def test_extend_argument_parser__personal_dicts(personal_dicts, option):
+def test_hunspellchecker_argument_parser__personal_dicts(personal_dicts, option):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         personal_dicts=personal_dicts,
         languages=False,
@@ -53,11 +53,11 @@ def test_extend_argument_parser__personal_dicts(personal_dicts, option):
         "-d/--dictionary",
     ),
 )
-def test_extend_argument_parser__personal_dicts_name_or_flags(
+def test_hunspellchecker_argument_parser__personal_dicts_name_or_flags(
     personal_dicts_name_or_flags,
 ):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         personal_dicts_name_or_flags=personal_dicts_name_or_flags,
         languages=False,
@@ -98,10 +98,10 @@ def test_extend_argument_parser__personal_dicts_name_or_flags(
     ),
     ids=("help,metavar", "dest"),
 )
-def test_extend_argument_parser__personal_dicts_kwargs(personal_dicts_kwargs):
+def test_hunspellchecker_argument_parser__personal_dicts_kwargs(personal_dicts_kwargs):
     parser = argparse.ArgumentParser()
 
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         personal_dicts_kwargs=personal_dicts_kwargs,
         languages=False,
@@ -117,7 +117,7 @@ def test_extend_argument_parser__personal_dicts_kwargs(personal_dicts_kwargs):
 
 def test_PersonalDictionaryAction():
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         languages=False,
         files=False,

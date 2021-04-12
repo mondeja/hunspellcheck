@@ -7,15 +7,15 @@ import uuid
 
 import pytest
 
-from hunspellcheck.cli import extend_argument_parser
+from hunspellcheck.cli import hunspellchecker_argument_parser
 
 
 @pytest.mark.parametrize("encoding", (True, False))
 @pytest.mark.parametrize("option", ("-i", "--input-encoding"))
-def test_extend_argument_parser__encoding(encoding, option):
-    """Test 'encoding' argument of 'extend_argument_parser' function."""
+def test_hunspellchecker_argument_parser__encoding(encoding, option):
+    """Test 'encoding' argument of 'hunspellchecker_argument_parser' function."""
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         languages=False,
         personal_dicts=False,
@@ -44,9 +44,11 @@ def test_extend_argument_parser__encoding(encoding, option):
         "-e/--encoding",
     ),
 )
-def test_extend_argument_parser__encoding_name_or_flags(encoding_name_or_flags):
+def test_hunspellchecker_argument_parser__encoding_name_or_flags(
+    encoding_name_or_flags,
+):
     parser = argparse.ArgumentParser()
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         encoding_name_or_flags=encoding_name_or_flags,
         personal_dicts=False,
@@ -81,10 +83,10 @@ def test_extend_argument_parser__encoding_name_or_flags(encoding_name_or_flags):
     ),
     ids=("help,metavar", "dest"),
 )
-def test_extend_argument_parser__encoding_kwargs(encoding_kwargs):
+def test_hunspellchecker_argument_parser__encoding_kwargs(encoding_kwargs):
     parser = argparse.ArgumentParser()
 
-    extend_argument_parser(
+    hunspellchecker_argument_parser(
         parser,
         encoding_kwargs=encoding_kwargs,
         personal_dicts=False,
