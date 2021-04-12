@@ -32,3 +32,4 @@ Features
    :caption: Reference
 
    api
+   changelog
