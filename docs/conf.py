@@ -1,6 +1,5 @@
 """Configuration file for the Sphinx documentation builder for mdpo."""
 
-import datetime
 import os
 import sys
 
@@ -11,9 +10,8 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 project = "hunspellcheck"
-copyright = f"{datetime.datetime.now()}, Álvaro Mondéjar Rubio"
 author = "Álvaro Mondéjar Rubio"
-
+copyright = f"2021, {author}"
 
 # -- General configuration ---------------------------------------------------
 
