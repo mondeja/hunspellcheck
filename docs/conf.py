@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 project = "hunspellcheck"
 author = "Álvaro Mondéjar Rubio"
-copyright = f"2020, {author}"
+copyright = f"2020-2021, {author}"
 
 # -- General configuration ---------------------------------------------------
 
