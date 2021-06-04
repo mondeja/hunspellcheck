@@ -54,6 +54,13 @@ class TestHunspellCheckerTxtCLI(HunspellCheckerInterfaceUtil):
             languages=opts.languages,
             personal_dicts=opts.personal_dicts,
             encoding=opts.encoding,
+            looks_like_a_word=looks_like_a_word_creator(
+                digits_are_words=opts.digits_are_words,
+                words_can_contain_digits=opts.words_can_contain_digits,
+                words_can_startswith_dash=opts.words_can_startswith_dash,
+                words_can_endswith_dash=opts.words_can_endswith_dash,
+                words_can_contain_dash=opts.words_can_contain_dash,
+            ),
         )
         for word_error in spellchecker.check():
             sys.stderr.write(f"{render_hunspell_word_error(word_error)}\n")
@@ -107,6 +114,7 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
         languages,
         personal_dicts=None,
         negotiate_languages=False,
+        encoding=None,
         include_filename=True,
         include_line_number=True,
         include_word=True,
@@ -115,8 +123,11 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
         include_text=False,
         include_error_number=False,
         include_near_misses=False,
-        looks_like_a_word=looks_like_a_word_creator(),
-        encoding=None,
+        digits_are_words=False,
+        words_can_contain_digits=True,
+        words_can_startswith_dash=True,
+        words_can_endswith_dash=True,
+        words_can_contain_dash=True,
     ):
         assert_is_valid_dictionary_language_or_filename(
             languages,
@@ -135,7 +146,13 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
             filename_contents,
             languages,
             personal_dicts=personal_dicts,
-            looks_like_a_word=looks_like_a_word,
+            looks_like_a_word=looks_like_a_word_creator(
+                digits_are_words=digits_are_words,
+                words_can_contain_digits=words_can_contain_digits,
+                words_can_startswith_dash=words_can_startswith_dash,
+                words_can_endswith_dash=words_can_endswith_dash,
+                words_can_contain_dash=words_can_contain_dash,
+            ),
             encoding=encoding,
         ).check(
             include_filename=include_filename,

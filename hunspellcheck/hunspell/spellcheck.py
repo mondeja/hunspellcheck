@@ -51,7 +51,7 @@ def hunspell_spellcheck(
                 temporal_personal_dict_filename = tempfile.NamedTemporaryFile(
                     dir=hunspellcheck_tempdir
                 ).name
-                if os.path.isfile(temporal_personal_dict_filename):
+                if os.path.isfile(temporal_personal_dict_filename):  # pragma: no cover
                     os.remove(temporal_personal_dict_filename)
                 os.mknod(temporal_personal_dict_filename)
                 for personal_dict_glob in personal_dicts:

@@ -48,6 +48,13 @@ Command line interface
            languages=opts.languages,
            personal_dicts=opts.personal_dicts,
            encoding=opts.encoding,
+           looks_like_a_word=looks_like_a_word_creator(
+               digits_are_words=opts.digits_are_words,
+               words_can_contain_digits=opts.words_can_contain_digits,
+               words_can_startswith_dash=opts.words_can_startswith_dash,
+               words_can_endswith_dash=opts.words_can_endswith_dash,
+               words_can_contain_dash=opts.words_can_contain_dash,
+           ),
        )
        for word_error in spellchecker.check():
            print(render_hunspell_word_error(word_error), file=sys.stderr)
@@ -59,26 +66,7 @@ Command line interface
        sys.exit(main())
 
 
-You can see the usage passing ``--help`` option to this script:
-
-.. code-block::
-
-   $ python3 __main__.py --help
-   usage: __main__.py [-h] [--version] -l LANGUAGE [-p PERSONAL_DICTIONARY] [FILES [FILES ...]]
-
-   positional arguments:
-     FILES                 Files and/or globs to check.
-
-   optional arguments:
-     -h, --help            show this help message and exit
-     --version             show program's version number and exit
-     -l LANGUAGE, --languages LANGUAGE
-                           Language to check, you'll have to install the corresponding hunspell dictionary.
-     -p PERSONAL_DICTIONARY, --personal-dict PERSONAL_DICTIONARY
-                           Additional dictionaries to extend the words to exclude.
-     -i ENCODING, --input ENCODING
-                           Input content encoding.
-
+You can see the usage passing ``--help`` option to this script.
 
 To use it, just create a ``.txt`` file and pass its filename as positional
 argument, selecting the language with ``--language`` option:

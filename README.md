@@ -3,7 +3,9 @@
 [![PyPI][pypi-version-badge-link]][pypi-link]
 [![Python versions][pypi-pyversions-badge-link]][pypi-link]
 [![License][license-image]][license-link]
+
 [![Tests][tests-image]][tests-link]
+[![Documentation][documentation-image]][documentation-link]
 [![Coverage status][coverage-image]][coverage-link]
 
 ## [Documentation][documentation-link]
@@ -15,12 +17,14 @@
  this library.
 
 [pypi-link]: https://pypi.org/project/hunspellcheck
-[pypi-version-badge-link]: https://img.shields.io/pypi/v/hunspellcheck
-[pypi-pyversions-badge-link]: https://img.shields.io/pypi/pyversions/hunspellcheck
-[license-image]: https://img.shields.io/pypi/l/hunspellcheck?color=light-green
+[pypi-version-badge-link]: https://img.shields.io/pypi/v/hunspellcheck?logo=pypi&logoColor=white
+[pypi-pyversions-badge-link]: https://img.shields.io/pypi/pyversions/hunspellcheck?logo=python&logoColor=white
+[license-image]: https://img.shields.io/pypi/l/hunspellcheck?color=light-green&logo=gnu&logoColor=whiite
 [license-link]: https://github.com/mondeja/hunspellcheck/blob/master/LICENSE
-[tests-image]: https://img.shields.io/github/workflow/status/mondeja/hunspellcheck/CI
+
+[tests-image]: https://img.shields.io/github/workflow/status/mondeja/hunspellcheck/CI?logo=github&label=tests
 [tests-link]: https://github.com/mondeja/hunspellcheck/actions?query=workflow%3ACI
+[documentation-image]: https://img.shields.io/readthedocs/hunspellcheck?logo=read-the-docs&logoColor=white
+[documentation-link]: https://hunspellcheck.readthedocs.io
 [coverage-image]: https://img.shields.io/coveralls/github/mondeja/hunspellcheck?logo=coveralls
 [coverage-link]: https://coveralls.io/github/mondeja/hunspellcheck
-[documentation-link]: https://hunspellcheck.readthedocs.io

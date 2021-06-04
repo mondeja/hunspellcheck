@@ -31,6 +31,21 @@ def hunspellchecker_argument_parser(
     encoding=True,
     encoding_name_or_flags=["-i", "--input-encoding"],
     encoding_kwargs={},
+    digits_are_words=True,
+    digits_are_words_name_or_flags=["--digits-are-words"],
+    digits_are_words_kwargs={},
+    words_not_contain_digits=True,
+    words_not_contain_digits_name_or_flags=["--words-not-contain-digits"],
+    words_not_contain_digits_kwargs={},
+    words_not_startswith_dash=True,
+    words_not_startswith_dash_name_or_flags=["--words-not-startswith-dash"],
+    words_not_startswith_dash_kwargs={},
+    words_not_endswith_dash=True,
+    words_not_endswith_dash_name_or_flags=["--words-not-endswith-dash"],
+    words_not_endswith_dash_kwargs={},
+    words_not_contain_dash=True,
+    words_not_contain_dash_name_or_flags=["--words-not-contain-dash"],
+    words_not_contain_dash_kwargs={},
 ):
     """Extends a :py:class:`argparse.ArgumentParser` instance adding
     spellchecking common parameters.
@@ -118,7 +133,59 @@ def hunspellchecker_argument_parser(
             :py:meth:`argparse.ArgumentParser.add_argument`.
         encoding_kwargs (dict): Optional kwargs which override the default
             kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
-            constructing the ``-i/--input-encoding`` option.
+            building the ``-i/--input-encoding`` option.
+        digits_are_words (bool): Include the option ``--digits-are-words`` to
+            define if a value filled by digits will be considered a word for
+            mispellchecking or not.
+        digits_are_words_name_or_flags (list, str): Flag name defined
+            constructing the ``--digits-are-words`` option using the method
+            :py:meth:`argparse.ArgumentParser.add_argument`.
+        digits_are_words_kwargs (dict): Optional kwargs which override default
+            kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
+            building the ``--digits-are-words` option.
+        words_not_contain_digits (bool): Include the option
+            ``--words-not-contain-digits`` which when passed in a CLI, the
+            words that contain digits will be ignored mispellchecking errors.
+        words_not_contain_digits_name_or_flags (list): Flag name defined
+            constructing the ``--words-not-contain-digits`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        words_not_contain_digits_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--words-not-contain-digits` option.
+        words_not_startswith_dash (bool): Include the option
+            ``--words-not-startswith-dash`` which when passed in a CLI, the
+            words starting with character ``"-" `` will be ignored
+            mispellchecking errors.
+        words_not_startswith_dash_name_or_flags (list): Flag name defined
+            constructing the ``--words-not-startswith-dash`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        words_not_startswith_dash_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--words-not-startswith-dash` option.
+        words_not_endswith_dash (bool): Include the option
+            ``--words-not-endswith-dash`` which when passed in a CLI, the
+            words ending with character ``"-" `` will be ignored
+            mispellchecking errors.
+        words_not_endswith_dash_name_or_flags (list): Flag name defined
+            constructing the ``--words-not-endswith-dash`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        words_not_endswith_dash_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--words-not-endswith-dash` option.
+        words_not_contain_dash (bool): Include the option
+            ``--words-not-contain-dash`` which when passed in a CLI, the
+            words containing character ``"-" `` will be ignored mispellchecking
+            for possible errors.
+        words_not_contain_dash_name_or_flags (list): Flag name defined
+            constructing the ``--words-not-contain-dash`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        words_not_contain_dash_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--words-not-contain-dash` option.
 
     Examples:
         >>> import argparse
@@ -223,3 +290,109 @@ def hunspellchecker_argument_parser(
             encoding_name_or_flags = [encoding_name_or_flags]
 
         parser.add_argument(*encoding_name_or_flags, **_encoding_kwargs)
+
+    if digits_are_words:
+        _digits_are_words_kwargs = {
+            "action": "store_true",
+            "required": False,
+            "dest": "digits_are_words",
+            "help": (
+                "Words compound only by digits will be considered words and"
+                " will be checked for possible mispelling errors."
+            ),
+        }
+        _digits_are_words_kwargs.update(digits_are_words_kwargs)
+
+        if isinstance(digits_are_words_name_or_flags, str):
+            digits_are_words_name_or_flags = [digits_are_words_name_or_flags]
+
+        parser.add_argument(*digits_are_words_name_or_flags, **_digits_are_words_kwargs)
+
+    if words_not_contain_digits:
+        _words_not_contain_digits_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "words_can_contain_digits",
+            "default": True,
+            "help": (
+                "Words that contain a digit inside will not be considered words"
+                " and will be ignored checking possible mispelling errors."
+            ),
+        }
+        _words_not_contain_digits_kwargs.update(words_not_contain_digits_kwargs)
+
+        if isinstance(words_not_contain_digits_name_or_flags, str):
+            words_not_contain_digits_name_or_flags = [
+                words_not_contain_digits_name_or_flags
+            ]
+
+        parser.add_argument(
+            *words_not_contain_digits_name_or_flags, **_words_not_contain_digits_kwargs
+        )
+
+    if words_not_startswith_dash:
+        _words_not_startswith_dash_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "words_can_startswith_dash",
+            "default": True,
+            "help": (
+                "Words starting with the character '-' will not be checked for"
+                " possible mispelling errors."
+            ),
+        }
+        _words_not_startswith_dash_kwargs.update(words_not_startswith_dash_kwargs)
+
+        if isinstance(words_not_startswith_dash_name_or_flags, str):
+            words_not_startswith_dash_name_or_flags = [
+                words_not_startswith_dash_name_or_flags
+            ]
+
+        parser.add_argument(
+            *words_not_startswith_dash_name_or_flags,
+            **_words_not_startswith_dash_kwargs,
+        )
+
+    if words_not_endswith_dash:
+        _words_not_endswith_dash_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "words_can_endswith_dash",
+            "default": True,
+            "help": (
+                "Words ending with the character '-' will not be checked for"
+                " possible mispelling errors."
+            ),
+        }
+        _words_not_endswith_dash_kwargs.update(words_not_endswith_dash_kwargs)
+
+        if isinstance(words_not_endswith_dash_name_or_flags, str):
+            words_not_endswith_dash_name_or_flags = [
+                words_not_endswith_dash_name_or_flags
+            ]
+
+        parser.add_argument(
+            *words_not_endswith_dash_name_or_flags, **_words_not_endswith_dash_kwargs
+        )
+
+    if words_not_contain_dash:
+        _words_not_contain_dash_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "words_can_contain_dash",
+            "default": True,
+            "help": (
+                "Words containing the character '-' will not be checked for"
+                " possible mispelling errors."
+            ),
+        }
+        _words_not_contain_dash_kwargs.update(words_not_contain_dash_kwargs)
+
+        if isinstance(words_not_contain_dash_name_or_flags, str):
+            words_not_contain_dash_name_or_flags = [
+                words_not_contain_dash_name_or_flags
+            ]
+
+        parser.add_argument(
+            *words_not_contain_dash_name_or_flags, **_words_not_contain_dash_kwargs
+        )
