@@ -57,7 +57,17 @@ Command line interface
                words_can_contain_dash=opts.words_can_contain_dash,
            ),
        )
-       for word_error in spellchecker.check():
+
+       for word_error in spellchecker.check(
+           include_filename=opts.include_filename,
+           include_line_number=opts.include_line_number,
+           include_word=opts.include_word,
+           include_word_line_index=opts.include_word_line_index,
+           include_line=opts.include_line,
+           include_text=opts.include_text,
+           include_error_number=opts.include_error_number,
+           include_near_misses=opts.include_near_misses,
+       ):
            print(render_hunspell_word_error(word_error), file=sys.stderr)
 
        return 0 if not spellchecker.errors else 1

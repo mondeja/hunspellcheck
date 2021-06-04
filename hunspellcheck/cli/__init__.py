@@ -46,6 +46,30 @@ def hunspellchecker_argument_parser(
     words_not_contain_dash=True,
     words_not_contain_dash_name_or_flags=["--words-not-contain-dash"],
     words_not_contain_dash_kwargs={},
+    no_include_filename=True,
+    no_include_filename_name_or_flags=["--no-include-filename"],
+    no_include_filename_kwargs={},
+    no_include_line_number=True,
+    no_include_line_number_name_or_flags=["--no-include-line-number"],
+    no_include_line_number_kwargs={},
+    no_include_word=True,
+    no_include_word_name_or_flags=["--no-include-word"],
+    no_include_word_kwargs={},
+    no_include_word_line_index=True,
+    no_include_word_line_index_name_or_flags=["--no-include-word-line-index"],
+    no_include_word_line_index_kwargs={},
+    include_line=True,
+    include_line_name_or_flags=["--include-line"],
+    include_line_kwargs={},
+    include_text=True,
+    include_text_name_or_flags=["--include-text"],
+    include_text_kwargs={},
+    include_error_number=True,
+    include_error_number_name_or_flags=["--include-error-number"],
+    include_error_number_kwargs={},
+    include_near_misses=True,
+    include_near_misses_name_or_flags=["--include-near-misses"],
+    include_near_misses_kwargs={},
 ):
     """Extends a :py:class:`argparse.ArgumentParser` instance adding
     spellchecking common parameters.
@@ -186,6 +210,87 @@ def hunspellchecker_argument_parser(
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
             ``--words-not-contain-dash` option.
+        no_include_filename (bool): Include the option
+            ``--no-include-filename`` which when passed in a CLI, the path to
+            files in which mispelling errors are found are not shown in
+            the output.
+        no_include_filename_name_or_flags (list): Flag name defined
+            constructing the ``--no-include-filename`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        no_include_filename_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--no-include-filename` option.
+        no_include_line_number (bool): Include the option
+            ``--no-include-line-number`` which when passed in a CLI, the number
+            of lines in which mispelling errors are found are not shown in
+            the output.
+        no_include_line_number_name_or_flags (list): Flag name defined
+            constructing the ``--no-include-line-number`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        no_include_line_number_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--no-include-line-number` option.
+        no_include_word (bool): Include the option
+            ``--no-include-word`` which when passed in a CLI, the words
+            in which mispelling errors are found are not shown in the output.
+        no_include_word_name_or_flags (list): Flag name defined
+            constructing the ``--no-include-word`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        no_include_word_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--no-include-word` option.
+        no_include_word_line_index (bool): Include the option
+            ``--no-include-word-line-index`` which when passed in a CLI, the
+            index of the mispelled words inside their lines in which mispelling
+            errors are found are not shown in the output.
+        no_include_word_line_index_name_or_flags (list): Flag name defined
+            constructing the ``--no-include-word-line-index`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        no_include_word_line_index_kwargs (dict): Optional kwargs which
+            override default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--no-include-word-line-index` option.
+        include_line (bool): Include the option ``--include-line`` which when
+            passed in a CLI, the line of the mispelled words in which
+            mispelling errors are found are shown in the output.
+        include_line_name_or_flags (list): Flag name defined constructing the
+            ``--include-line`` option using the method
+            :py:meth:`argparse.ArgumentParser.add_argument`.
+        include_line_kwargs (dict): Optional kwargs which override default
+            kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
+            building the ``--include-line` option.
+        include_text (bool): Include the option ``--include-text`` which when
+            passed in a CLI, the text in which reside found mispelled words
+            is shown in the output.
+        include_text_name_or_flags (list): Flag name defined constructing the
+            ``--include-text`` option using the method
+            :py:meth:`argparse.ArgumentParser.add_argument`.
+        include_text_kwargs (dict): Optional kwargs which override default
+            kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
+            building the ``--include-text` option.
+        include_error_number (bool): Include the option
+            ``--include-error-number`` which when passed in a CLI, the number
+            of each error is shown in the output.
+        include_error_number_name_or_flags (list): Flag name defined building
+            the ``--include-error-number`` option using the method
+            :py:meth:`argparse.ArgumentParser.add_argument`.
+        include_error_number_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--include-error-number` option.
+        include_near_misses (bool): Include the option
+            ``--include-near-misses`` which when passed in a CLI, some Hunspell
+            suggestions will be shown for each mispelled word in the report.
+        include_near_misses_name_or_flags (list): Flag name defined building
+            the ``--include-near-misses`` option using the method
+            :py:meth:`argparse.ArgumentParser.add_argument`.
+        include_near_misses_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--include-near-misses` option.
 
     Examples:
         >>> import argparse
@@ -296,6 +401,7 @@ def hunspellchecker_argument_parser(
             "action": "store_true",
             "required": False,
             "dest": "digits_are_words",
+            "default": False,
             "help": (
                 "Words compound only by digits will be considered words and"
                 " will be checked for possible mispelling errors."
@@ -395,4 +501,151 @@ def hunspellchecker_argument_parser(
 
         parser.add_argument(
             *words_not_contain_dash_name_or_flags, **_words_not_contain_dash_kwargs
+        )
+
+    if no_include_filename:
+        _no_include_filename_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "include_filename",
+            "default": True,
+            "help": "Filenames will not be included in spellchecking errors report.",
+        }
+        _no_include_filename_kwargs.update(no_include_filename_kwargs)
+
+        if isinstance(no_include_filename_name_or_flags, str):
+            no_include_filename_name_or_flags = [no_include_filename_name_or_flags]
+
+        parser.add_argument(
+            *no_include_filename_name_or_flags, **_no_include_filename_kwargs
+        )
+
+    if no_include_line_number:
+        _no_include_line_number_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "include_line_number",
+            "default": True,
+            "help": "Line numbers will not be included in spellchecking errors report.",
+        }
+        _no_include_line_number_kwargs.update(no_include_line_number_kwargs)
+
+        if isinstance(no_include_line_number_name_or_flags, str):
+            no_include_line_number_name_or_flags = [
+                no_include_line_number_name_or_flags
+            ]
+
+        parser.add_argument(
+            *no_include_line_number_name_or_flags, **_no_include_line_number_kwargs
+        )
+
+    if no_include_word:
+        _no_include_word_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "include_word",
+            "default": True,
+            "help": "Words will not be included in spellchecking errors report.",
+        }
+        _no_include_word_kwargs.update(no_include_word_kwargs)
+
+        if isinstance(no_include_word_name_or_flags, str):
+            no_include_word_name_or_flags = [no_include_word_name_or_flags]
+
+        parser.add_argument(*no_include_word_name_or_flags, **_no_include_word_kwargs)
+
+    if no_include_word_line_index:
+        _no_include_word_line_index_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "include_word_line_index",
+            "default": True,
+            "help": (
+                "Index of mispelled words inside their lines will not be"
+                " included in spellchecking errors report."
+            ),
+        }
+        _no_include_word_line_index_kwargs.update(no_include_word_line_index_kwargs)
+
+        if isinstance(no_include_word_line_index_name_or_flags, str):
+            no_include_word_line_index_name_or_flags = [
+                no_include_word_line_index_name_or_flags
+            ]
+
+        parser.add_argument(
+            *no_include_word_line_index_name_or_flags,
+            **_no_include_word_line_index_kwargs,
+        )
+
+    if include_line:
+        _include_line_kwargs = {
+            "action": "store_true",
+            "required": False,
+            "dest": "include_line",
+            "default": False,
+            "help": (
+                "Entire lines inside mispelled words are found will be shown in"
+                " the report."
+            ),
+        }
+        _include_line_kwargs.update(include_line_kwargs)
+
+        if isinstance(include_line_name_or_flags, str):
+            include_line_name_or_flags = [include_line_name_or_flags]
+
+        parser.add_argument(*include_line_name_or_flags, **_include_line_kwargs)
+
+    if include_text:
+        _include_text_kwargs = {
+            "action": "store_true",
+            "required": False,
+            "dest": "include_text",
+            "default": False,
+            "help": (
+                "Entire texts inside mispelled words are found will be shown"
+                " in the report."
+            ),
+        }
+        _include_text_kwargs.update(include_text_kwargs)
+
+        if isinstance(include_text_name_or_flags, str):
+            include_text_name_or_flags = [include_text_name_or_flags]
+
+        parser.add_argument(*include_text_name_or_flags, **_include_text_kwargs)
+
+    if include_error_number:
+        _include_error_number_kwargs = {
+            "action": "store_true",
+            "required": False,
+            "dest": "include_error_number",
+            "default": False,
+            "help": ("A counter for each mispelled word will be shown in the report."),
+        }
+        _include_error_number_kwargs.update(include_error_number_kwargs)
+
+        if isinstance(include_error_number_name_or_flags, str):
+            include_error_number_name_or_flags = [include_error_number_name_or_flags]
+
+        parser.add_argument(
+            *include_error_number_name_or_flags, **_include_error_number_kwargs
+        )
+
+    if include_near_misses:
+        _include_near_misses_kwargs = {
+            "action": "store_true",
+            "required": False,
+            "dest": "include_near_misses",
+            "default": False,
+            "help": (
+                "Some Hunspell suggestions for each mispelled word will be"
+                " shown in the report."
+            ),
+        }
+        _include_near_misses_kwargs.update(include_near_misses_kwargs)
+
+        if isinstance(include_near_misses_name_or_flags, str):
+            include_near_misses_name_or_flags = [include_near_misses_name_or_flags]
+
+        parser.add_argument(
+            *include_near_misses_name_or_flags, **_include_near_misses_kwargs
         )

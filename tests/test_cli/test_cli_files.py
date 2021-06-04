@@ -79,7 +79,7 @@ def test_hunspellchecker_argument_parser__files_kwargs(files_kwargs):
         encoding=False,
     )
 
-    files_action = parser._optionals._actions[-6]
+    files_action = parser._optionals._actions[-14]
 
     for kwarg, value in files_kwargs.items():
         assert getattr(files_action, kwarg) == value

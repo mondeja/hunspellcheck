@@ -94,7 +94,7 @@ def test_hunspellchecker_argument_parser__encoding_kwargs(encoding_kwargs):
         languages=False,
     )
 
-    encoding_action = parser._optionals._actions[-6]
+    encoding_action = parser._optionals._actions[-14]
 
     for kwarg, value in encoding_kwargs.items():
         assert getattr(encoding_action, kwarg) == value

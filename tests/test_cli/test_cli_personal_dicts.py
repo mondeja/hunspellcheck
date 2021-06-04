@@ -109,7 +109,7 @@ def test_hunspellchecker_argument_parser__personal_dicts_kwargs(personal_dicts_k
         encoding=False,
     )
 
-    personal_dicts_action = parser._optionals._actions[-6]
+    personal_dicts_action = parser._optionals._actions[-14]
 
     for kwarg, value in personal_dicts_kwargs.items():
         assert getattr(personal_dicts_action, kwarg) == value
