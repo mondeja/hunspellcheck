@@ -46,6 +46,9 @@ def hunspellchecker_argument_parser(
     words_not_contain_dash=True,
     words_not_contain_dash_name_or_flags=["--words-not-contain-dash"],
     words_not_contain_dash_kwargs={},
+    words_not_contain_two_upper=True,
+    words_not_contain_two_upper_name_or_flags=["--words-not-contain-two-upper"],
+    words_not_contain_two_upper_kwargs={},
     no_include_filename=True,
     no_include_filename_name_or_flags=["--no-include-filename"],
     no_include_filename_kwargs={},
@@ -210,6 +213,17 @@ def hunspellchecker_argument_parser(
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
             ``--words-not-contain-dash` option.
+        words_not_contain_two_upper (bool): Include the option
+            ``--words-not-contain-two-upper`` which when passed in a CLI, the
+            words containing two uppercase letters or mote will be ignored
+            mispellchecking for possible errors.
+        words_not_contain_two_upper_name_or_flags (list): Flag name defined
+            constructing the ``--words-not-contain-two-upper`` option using the
+            method :py:meth:`argparse.ArgumentParser.add_argument`.
+        words_not_contain_two_upper_kwargs (dict): Optional kwargs which override
+            default kwargs passed to
+            :py:meth:`argparse.ArgumentParser.add_argument` building the
+            ``--words-not-contain-two-upper` option.
         no_include_filename (bool): Include the option
             ``--no-include-filename`` which when passed in a CLI, the path to
             files in which mispelling errors are found are not shown in
@@ -501,6 +515,29 @@ def hunspellchecker_argument_parser(
 
         parser.add_argument(
             *words_not_contain_dash_name_or_flags, **_words_not_contain_dash_kwargs
+        )
+
+    if words_not_contain_two_upper:
+        _words_not_contain_two_upper_kwargs = {
+            "action": "store_false",
+            "required": False,
+            "dest": "words_can_contain_two_upper",
+            "default": True,
+            "help": (
+                "Words containing two or more uppercase letters will not be"
+                " checked for possible mispelling errors."
+            ),
+        }
+        _words_not_contain_two_upper_kwargs.update(words_not_contain_two_upper_kwargs)
+
+        if isinstance(words_not_contain_two_upper_name_or_flags, str):
+            words_not_contain_two_upper_name_or_flags = [
+                words_not_contain_two_upper_name_or_flags
+            ]
+
+        parser.add_argument(
+            *words_not_contain_two_upper_name_or_flags,
+            **_words_not_contain_two_upper_kwargs,
         )
 
     if no_include_filename:

@@ -49,18 +49,21 @@ class TestHunspellCheckerTxtCLI(HunspellCheckerInterfaceUtil):
             with open(filename) as f:
                 filenames_contents[filename] = f.read()
 
+        looks_like_a_word = looks_like_a_word_creator(
+            digits_are_words=opts.digits_are_words,
+            words_can_contain_digits=opts.words_can_contain_digits,
+            words_can_startswith_dash=opts.words_can_startswith_dash,
+            words_can_endswith_dash=opts.words_can_endswith_dash,
+            words_can_contain_dash=opts.words_can_contain_dash,
+            words_can_contain_two_upper=opts.words_can_contain_two_upper,
+        )
+
         spellchecker = HunspellChecker(
             filenames_contents=filenames_contents,
             languages=opts.languages,
             personal_dicts=opts.personal_dicts,
             encoding=opts.encoding,
-            looks_like_a_word=looks_like_a_word_creator(
-                digits_are_words=opts.digits_are_words,
-                words_can_contain_digits=opts.words_can_contain_digits,
-                words_can_startswith_dash=opts.words_can_startswith_dash,
-                words_can_endswith_dash=opts.words_can_endswith_dash,
-                words_can_contain_dash=opts.words_can_contain_dash,
-            ),
+            looks_like_a_word=looks_like_a_word,
         )
 
         for word_error in spellchecker.check(
@@ -125,6 +128,12 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
         personal_dicts=None,
         negotiate_languages=False,
         encoding=None,
+        digits_are_words=False,
+        words_can_contain_digits=True,
+        words_can_startswith_dash=True,
+        words_can_endswith_dash=True,
+        words_can_contain_dash=True,
+        words_can_contain_two_upper=True,
         include_filename=True,
         include_line_number=True,
         include_word=True,
@@ -133,11 +142,6 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
         include_text=False,
         include_error_number=False,
         include_near_misses=False,
-        digits_are_words=False,
-        words_can_contain_digits=True,
-        words_can_startswith_dash=True,
-        words_can_endswith_dash=True,
-        words_can_contain_dash=True,
     ):
         assert_is_valid_dictionary_language_or_filename(
             languages,
@@ -162,6 +166,7 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
                 words_can_startswith_dash=words_can_startswith_dash,
                 words_can_endswith_dash=words_can_endswith_dash,
                 words_can_contain_dash=words_can_contain_dash,
+                words_can_contain_two_upper=words_can_contain_two_upper,
             ),
             encoding=encoding,
         ).check(

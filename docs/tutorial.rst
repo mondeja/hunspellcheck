@@ -44,18 +44,21 @@ Command line interface
            with open(filename, "r") as f:
                filenames_contents[filename] = f.read()
 
+       looks_like_a_word = looks_like_a_word_creator(
+           digits_are_words=opts.digits_are_words,
+           words_can_contain_digits=opts.words_can_contain_digits,
+           words_can_startswith_dash=opts.words_can_startswith_dash,
+           words_can_endswith_dash=opts.words_can_endswith_dash,
+           words_can_contain_dash=opts.words_can_contain_dash,
+           words_can_contain_two_upper=opts.words_can_contain_two_upper,
+       )
+
        spellchecker = HunspellChecker(
            filenames_contents=filenames_contents,
            languages=opts.languages,
            personal_dicts=opts.personal_dicts,
            encoding=opts.encoding,
-           looks_like_a_word=looks_like_a_word_creator(
-               digits_are_words=opts.digits_are_words,
-               words_can_contain_digits=opts.words_can_contain_digits,
-               words_can_startswith_dash=opts.words_can_startswith_dash,
-               words_can_endswith_dash=opts.words_can_endswith_dash,
-               words_can_contain_dash=opts.words_can_contain_dash,
-           ),
+           looks_like_a_word=looks_like_a_word,
        )
 
        for word_error in spellchecker.check(
@@ -120,6 +123,12 @@ Public API interface
         personal_dicts=None,
         negotiate_languages=False,
         encoding=None,
+        digits_are_words=False,
+        words_can_contain_digits=True,
+        words_can_startswith_dash=True,
+        words_can_endswith_dash=True,
+        words_can_contain_dash=True,
+        words_can_contain_two_upper=True,
         include_filename=True,
         include_line_number=True,
         include_word=True,
@@ -128,11 +137,6 @@ Public API interface
         include_text=False,
         include_error_number=False,
         include_near_misses=False,
-        digits_are_words=False,
-        words_can_contain_digits=True,
-        words_can_startswith_dash=True,
-        words_can_endswith_dash=True,
-        words_can_contain_dash=True,
    ):
        """Text files spellchecker function.
 
@@ -156,6 +160,30 @@ Public API interface
 
        encoding : str, optional
          Input encoding. If not defined, it will be autodetected by hunspell.
+
+       digits_are_words : bool, optional
+         If ``False``, values with all characters as digits will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_contain_digits : bool, optional
+         If ``False``, values with at least one digit character will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_startswith_dash : bool, optional
+         If ``False``, values starting with the ``-`` character will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_endswith_dash : bool, optional
+         If ``False``, values ending with the ``-`` character will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_contain_dash : bool, optional
+         If ``False``, values containing the ``-`` character will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_contain_two_upper : bool, optional
+         If ``False``, values containing two uppercase letters will not be
+         considered words, so they will not be checked for mispelling errors.
 
        include_filename : bool, optional
          Include the filename in which has been found a mispelling error.
@@ -182,62 +210,43 @@ Public API interface
 
        include_near_misses : bool, optional
          Include a list with the near misses for the mispelled word.
-
-       digits_are_words : bool, optional
-         If ``False``, values with all characters as digits will not be
-         considered words, so they will not be checked for mispelling errors.
-
-       words_can_contain_digits : bool, optional
-         If ``False``, values with at least one digit character will not be
-         considered words, so they will not be checked for mispelling errors.
-
-       words_can_startswith_dash : bool, optional
-         If ``False``, values starting with the ``-`` character will not be
-         considered words, so they will not be checked for mispelling errors.
-
-       words_can_endswith_dash : bool, optional
-         If ``False``, values ending with the ``-`` character will not be
-         considered words, so they will not be checked for mispelling errors.
-
-       words_can_contain_dash : bool, optional
-         If ``False``, values containing the ``-`` character will not be
-         considered words, so they will not be checked for mispelling errors.
        """
-        assert_is_valid_dictionary_language_or_filename(
-            languages,
-            negotiate_languages=negotiate_languages,
-        )
+       assert_is_valid_dictionary_language_or_filename(
+           languages,
+           negotiate_languages=negotiate_languages,
+       )
 
-        filename_contents = {}
-        for glob_files in files:
-             for filename in glob.glob(glob_files):
-                 filename_contents[filename] = txt_file_to_content(
-                     filename,
-                     encoding=encoding,
-                 )
+       filename_contents = {}
+       for glob_files in files:
+           for filename in glob.glob(glob_files):
+               filename_contents[filename] = txt_file_to_content(
+                   filename,
+                   encoding=encoding,
+               )
 
-        yield from HunspellChecker(
-            filename_contents,
-            languages,
-            personal_dicts=personal_dicts,
-            looks_like_a_word=looks_like_a_word_creator(
+       yield from HunspellChecker(
+           filename_contents,
+           languages,
+           personal_dicts=personal_dicts,
+           looks_like_a_word=looks_like_a_word_creator(
                digits_are_words=digits_are_words,
                words_can_contain_digits=words_can_contain_digits,
                words_can_startswith_dash=words_can_startswith_dash,
                words_can_endswith_dash=words_can_endswith_dash,
                words_can_contain_dash=words_can_contain_dash,
-            ),
-            encoding=encoding,
-        ).check(
-            include_filename=include_filename,
-            include_line_number=include_line_number,
-            include_word=include_word,
-            include_word_line_index=include_word_line_index,
-            include_line=include_line,
-            include_text=include_text,
-            include_error_number=include_error_number,
-            include_near_misses=include_near_misses,
-        )
+               words_can_contain_two_upper=words_can_contain_two_upper,
+           ),
+           encoding=encoding,
+       ).check(
+           include_filename=include_filename,
+           include_line_number=include_line_number,
+           include_word=include_word,
+           include_word_line_index=include_word_line_index,
+           include_line=include_line,
+           include_text=include_text,
+           include_error_number=include_error_number,
+           include_near_misses=include_near_misses,
+       )
 
 
 The function will yield from a generator:

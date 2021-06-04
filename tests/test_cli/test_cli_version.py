@@ -108,7 +108,7 @@ def test_hunspellchecker_argument_parser__version_kwargs(version_kwargs):
         encoding=False,
     )
 
-    version_action = parser._optionals._actions[-14]
+    version_action = parser._optionals._actions[-15]
     for kwarg, value in version_kwargs.items():
         assert getattr(version_action, kwarg) == value
 

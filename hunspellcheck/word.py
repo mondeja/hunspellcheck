@@ -1,4 +1,5 @@
 import string  # noqa: F401
+import unicodedata  # noqa: F401
 
 
 def looks_like_a_word_creator(
@@ -7,6 +8,7 @@ def looks_like_a_word_creator(
     words_can_startswith_dash=True,
     words_can_endswith_dash=True,
     words_can_contain_dash=True,
+    words_can_contain_two_upper=True,
 ):
     """Generates dinamically the function ``look_like_a_word`` use to clean the
     words that must not be checked for mispelling errors.
@@ -22,6 +24,9 @@ def looks_like_a_word_creator(
             character will not be considered words.
         words_can_contain_dash (bool): If ``False``, values containing the ``-``
             character will not be considered words.
+        words_can_contain_two_upper (bool): If ``False``, values which
+            contain at least two uppercase like CPython will not be considered
+            words and will not be checking for possible mispellings.
 
     Returns:
         function: Function that takes a possible word as a parameter and
@@ -34,6 +39,10 @@ def looks_like_a_word_creator(
         (words_can_startswith_dash, 'text.startswith("-")'),
         (words_can_endswith_dash, 'text.endswith("-")'),
         (words_can_contain_dash, '"-" in text'),
+        (
+            words_can_contain_two_upper,
+            'len([c for c in text if unicodedata.category(c) == "Lu"]) > 1',
+        ),
     ]
 
     function_conditional = "if not text or "

@@ -108,7 +108,7 @@ def test_hunspellchecker_argument_parser__languages_kwargs(languages_kwargs):
         encoding=False,
     )
 
-    language_action = parser._optionals._actions[-14]
+    language_action = parser._optionals._actions[-15]
 
     for kwarg, value in languages_kwargs.items():
         assert getattr(language_action, kwarg) == value
@@ -166,7 +166,7 @@ def test_HunspellDictionaryNegotiatorAction():
     ) in stderr.getvalue()
 
     # language dictionary by filename
-    language_action = parser._optionals._actions[-14]
+    language_action = parser._optionals._actions[-15]
     language_action.choices = None
 
     dictionary_full_path = next(gen_available_dictionaries(full_paths=True))
