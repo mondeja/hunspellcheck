@@ -332,7 +332,7 @@ def hunspellchecker_argument_parser(
             _version_kwargs = {"action": "version", "version": version_string}
             _version_kwargs.update(version_kwargs)
 
-            if isinstance(version_name_or_flags, str):
+            if isinstance(version_name_or_flags, str):  # pragma: no cover
                 version_name_or_flags = [version_name_or_flags]
 
             parser.add_argument(*version_name_or_flags, **_version_kwargs)
@@ -370,7 +370,7 @@ def hunspellchecker_argument_parser(
         )
         _languages_kwargs.update(languages_kwargs)
 
-        if isinstance(languages_name_or_flags, str):
+        if isinstance(languages_name_or_flags, str):  # pragma: no cover
             languages_name_or_flags = [languages_name_or_flags]
 
         parser.add_argument(*languages_name_or_flags, **_languages_kwargs)
@@ -388,7 +388,7 @@ def hunspellchecker_argument_parser(
         }
         _personal_dicts_kwargs.update(personal_dicts_kwargs)
 
-        if isinstance(personal_dicts_name_or_flags, str):
+        if isinstance(personal_dicts_name_or_flags, str):  # pragma: no cover
             personal_dicts_name_or_flags = [personal_dicts_name_or_flags]
 
         parser.add_argument(*personal_dicts_name_or_flags, **_personal_dicts_kwargs)
@@ -405,7 +405,7 @@ def hunspellchecker_argument_parser(
         }
         _encoding_kwargs.update(encoding_kwargs)
 
-        if isinstance(encoding_name_or_flags, str):
+        if isinstance(encoding_name_or_flags, str):  # pragma: no cover
             encoding_name_or_flags = [encoding_name_or_flags]
 
         parser.add_argument(*encoding_name_or_flags, **_encoding_kwargs)
@@ -423,7 +423,7 @@ def hunspellchecker_argument_parser(
         }
         _digits_are_words_kwargs.update(digits_are_words_kwargs)
 
-        if isinstance(digits_are_words_name_or_flags, str):
+        if isinstance(digits_are_words_name_or_flags, str):  # pragma: no cover
             digits_are_words_name_or_flags = [digits_are_words_name_or_flags]
 
         parser.add_argument(*digits_are_words_name_or_flags, **_digits_are_words_kwargs)
@@ -441,7 +441,7 @@ def hunspellchecker_argument_parser(
         }
         _words_not_contain_digits_kwargs.update(words_not_contain_digits_kwargs)
 
-        if isinstance(words_not_contain_digits_name_or_flags, str):
+        if isinstance(words_not_contain_digits_name_or_flags, str):  # pragma: no cover
             words_not_contain_digits_name_or_flags = [
                 words_not_contain_digits_name_or_flags
             ]
@@ -463,7 +463,7 @@ def hunspellchecker_argument_parser(
         }
         _words_not_startswith_dash_kwargs.update(words_not_startswith_dash_kwargs)
 
-        if isinstance(words_not_startswith_dash_name_or_flags, str):
+        if isinstance(words_not_startswith_dash_name_or_flags, str):  # pragma: no cover
             words_not_startswith_dash_name_or_flags = [
                 words_not_startswith_dash_name_or_flags
             ]
@@ -486,7 +486,7 @@ def hunspellchecker_argument_parser(
         }
         _words_not_endswith_dash_kwargs.update(words_not_endswith_dash_kwargs)
 
-        if isinstance(words_not_endswith_dash_name_or_flags, str):
+        if isinstance(words_not_endswith_dash_name_or_flags, str):  # pragma: no cover
             words_not_endswith_dash_name_or_flags = [
                 words_not_endswith_dash_name_or_flags
             ]
@@ -508,7 +508,7 @@ def hunspellchecker_argument_parser(
         }
         _words_not_contain_dash_kwargs.update(words_not_contain_dash_kwargs)
 
-        if isinstance(words_not_contain_dash_name_or_flags, str):
+        if isinstance(words_not_contain_dash_name_or_flags, str):  # pragma: no cover
             words_not_contain_dash_name_or_flags = [
                 words_not_contain_dash_name_or_flags
             ]
@@ -530,7 +530,9 @@ def hunspellchecker_argument_parser(
         }
         _words_not_contain_two_upper_kwargs.update(words_not_contain_two_upper_kwargs)
 
-        if isinstance(words_not_contain_two_upper_name_or_flags, str):
+        if isinstance(
+            words_not_contain_two_upper_name_or_flags, str
+        ):  # pragma: no cover
             words_not_contain_two_upper_name_or_flags = [
                 words_not_contain_two_upper_name_or_flags
             ]
@@ -550,7 +552,7 @@ def hunspellchecker_argument_parser(
         }
         _no_include_filename_kwargs.update(no_include_filename_kwargs)
 
-        if isinstance(no_include_filename_name_or_flags, str):
+        if isinstance(no_include_filename_name_or_flags, str):  # pragma: no cover
             no_include_filename_name_or_flags = [no_include_filename_name_or_flags]
 
         parser.add_argument(
@@ -567,7 +569,7 @@ def hunspellchecker_argument_parser(
         }
         _no_include_line_number_kwargs.update(no_include_line_number_kwargs)
 
-        if isinstance(no_include_line_number_name_or_flags, str):
+        if isinstance(no_include_line_number_name_or_flags, str):  # pragma: no cover
             no_include_line_number_name_or_flags = [
                 no_include_line_number_name_or_flags
             ]
@@ -586,7 +588,7 @@ def hunspellchecker_argument_parser(
         }
         _no_include_word_kwargs.update(no_include_word_kwargs)
 
-        if isinstance(no_include_word_name_or_flags, str):
+        if isinstance(no_include_word_name_or_flags, str):  # pragma: no cover
             no_include_word_name_or_flags = [no_include_word_name_or_flags]
 
         parser.add_argument(*no_include_word_name_or_flags, **_no_include_word_kwargs)
@@ -604,7 +606,9 @@ def hunspellchecker_argument_parser(
         }
         _no_include_word_line_index_kwargs.update(no_include_word_line_index_kwargs)
 
-        if isinstance(no_include_word_line_index_name_or_flags, str):
+        if isinstance(
+            no_include_word_line_index_name_or_flags, str
+        ):  # pragma: no cover
             no_include_word_line_index_name_or_flags = [
                 no_include_word_line_index_name_or_flags
             ]
@@ -627,7 +631,7 @@ def hunspellchecker_argument_parser(
         }
         _include_line_kwargs.update(include_line_kwargs)
 
-        if isinstance(include_line_name_or_flags, str):
+        if isinstance(include_line_name_or_flags, str):  # pragma: no cover
             include_line_name_or_flags = [include_line_name_or_flags]
 
         parser.add_argument(*include_line_name_or_flags, **_include_line_kwargs)
@@ -645,7 +649,7 @@ def hunspellchecker_argument_parser(
         }
         _include_text_kwargs.update(include_text_kwargs)
 
-        if isinstance(include_text_name_or_flags, str):
+        if isinstance(include_text_name_or_flags, str):  # pragma: no cover
             include_text_name_or_flags = [include_text_name_or_flags]
 
         parser.add_argument(*include_text_name_or_flags, **_include_text_kwargs)
@@ -660,7 +664,7 @@ def hunspellchecker_argument_parser(
         }
         _include_error_number_kwargs.update(include_error_number_kwargs)
 
-        if isinstance(include_error_number_name_or_flags, str):
+        if isinstance(include_error_number_name_or_flags, str):  # pragma: no cover
             include_error_number_name_or_flags = [include_error_number_name_or_flags]
 
         parser.add_argument(
@@ -680,7 +684,7 @@ def hunspellchecker_argument_parser(
         }
         _include_near_misses_kwargs.update(include_near_misses_kwargs)
 
-        if isinstance(include_near_misses_name_or_flags, str):
+        if isinstance(include_near_misses_name_or_flags, str):  # pragma: no cover
             include_near_misses_name_or_flags = [include_near_misses_name_or_flags]
 
         parser.add_argument(

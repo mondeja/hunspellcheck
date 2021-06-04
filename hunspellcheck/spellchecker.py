@@ -180,7 +180,7 @@ def parse_hunspell_output(
                     line_number = 1
                 except StopIteration:
                     return error_number
-            continue
+            continue  # pragma: no cover
 
         if hunspell_line[0] == "&":
             _, word, *mispell_data = hunspell_line.split()
