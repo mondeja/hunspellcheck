@@ -17,6 +17,7 @@ Command line interface
 
    from hunspellcheck import (
        hunspellchecker_argument_parser,
+       looks_like_a_word_creator,
        render_hunspell_word_error,
        HunspellChecker,
    )
@@ -96,9 +97,11 @@ Public API interface
       looks_like_a_word_creator,
    )
 
+
    def txt_file_to_content(filename, encoding=None):
        with open(filename, "r", encoding=encoding) as f:
            return f.read()
+
 
    def txt_spell(
         self,
