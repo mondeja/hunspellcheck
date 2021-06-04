@@ -3,10 +3,9 @@
 This module contains all the spellchecking logic.
 """
 
-import string
-
 from hunspellcheck.exceptions import Unreachable
 from hunspellcheck.hunspell.spellcheck import hunspell_spellcheck
+from hunspellcheck.word import looks_like_a_word_creator
 
 
 ERROR_FIELDS = [
@@ -20,26 +19,7 @@ ERROR_FIELDS = [
     "near_misses",
 ]
 
-
-def looks_like_a_word(text):
-    """Return True if the given str looks like a word.
-
-    Used to filter out non-words like `---` or `-0700` so they don't
-    get reported. They typically are not errors.
-
-    Args:
-        word (str): Text to check if is a word.
-
-    Returns:
-        bool: ``True`` if the input looks like a word, ``False`` instead.
-    """
-    if not text:
-        return False
-    if any(digit in text for digit in string.digits):
-        return False
-    if text.startswith("-") or text.endswith("-"):
-        return False
-    return True
+DEFAULT_LOOKS_LIKE_A_WORD = looks_like_a_word_creator()
 
 
 class HunspellChecker:
@@ -53,9 +33,11 @@ class HunspellChecker:
             with custom words to ignore from being triggered as positives. Can
             be globs or files, as string or list of strings.
         looks_like_a_word (types.FunctionType): Function to filter the positive
-            words from being considered positives. By default, the function
-            :py:func:`hunspellcheck.looks_like_a_word` will be used,
-            which will do a basic check.
+            words from being considered positives. Takes a possible word string
+            and returns if the value could be considered a word to be checked
+            for mispelling errors. By default, the function
+            :py:func:`hunspellcheck.word.looks_like_a_word_creator` will be
+            used with all its arguments by default to build a basic validator.
         encoding (str): Input encoding. If not defined, it will be autodetected
             by hunspell.
     """
@@ -65,7 +47,7 @@ class HunspellChecker:
         filenames_contents,
         languages,
         personal_dicts=None,
-        looks_like_a_word=looks_like_a_word,
+        looks_like_a_word=DEFAULT_LOOKS_LIKE_A_WORD,
         encoding=None,
     ):
         self.filenames_contents = filenames_contents
@@ -159,7 +141,7 @@ def quote_for_hunspell(text):
 def parse_hunspell_output(
     filenames_contents,
     hunspell_output,
-    looks_like_a_word=looks_like_a_word,
+    looks_like_a_word=DEFAULT_LOOKS_LIKE_A_WORD,
     include_filename=True,
     include_line_number=True,
     include_word=True,

@@ -16,7 +16,7 @@ Spellchecker interface
    :members:
 
 .. autofunction:: hunspellcheck.render_hunspell_word_error
-.. autofunction:: hunspellcheck.looks_like_a_word
+.. autofunction:: hunspellcheck.word.looks_like_a_word_creator
 
 Hunspell utilities
 ~~~~~~~~~~~~~~~~~~

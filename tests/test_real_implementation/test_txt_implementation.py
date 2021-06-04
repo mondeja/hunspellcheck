@@ -15,7 +15,7 @@ from hunspellcheck import (
     HunspellChecker,
     assert_is_valid_dictionary_language_or_filename,
     hunspellchecker_argument_parser,
-    looks_like_a_word,
+    looks_like_a_word_creator,
     render_hunspell_word_error,
 )
 
@@ -115,7 +115,7 @@ class TestHunspellCheckerTxtAPI(HunspellCheckerInterfaceUtil):
         include_text=False,
         include_error_number=False,
         include_near_misses=False,
-        looks_like_a_word=looks_like_a_word,
+        looks_like_a_word=looks_like_a_word_creator(),
         encoding=None,
     ):
         assert_is_valid_dictionary_language_or_filename(

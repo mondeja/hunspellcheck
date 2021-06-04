@@ -5,7 +5,7 @@ import tempfile
 
 import pytest
 
-from hunspellcheck.spellchecker import HunspellChecker, looks_like_a_word
+from hunspellcheck.spellchecker import HunspellChecker
 
 
 class TestHunspellChecker:
@@ -362,20 +362,3 @@ class TestHunspellChecker:
         else:
             for personal_dict_filename in personal_dicts:
                 os.remove(personal_dict_filename)
-
-
-@pytest.mark.parametrize(
-    ("value", "expected_result"),
-    (
-        ("1hello", False),
-        ("", False),
-        (None, False),
-        ("-hello", False),
-        ("hello-", False),
-        ("hello-good", True),
-        ("hello", True),
-        ("Hello", True),
-    ),
-)
-def test_look_like_a_word(value, expected_result):
-    assert looks_like_a_word(value) == expected_result

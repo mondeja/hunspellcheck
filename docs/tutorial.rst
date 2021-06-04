@@ -105,7 +105,7 @@ Public API interface
    from hunspellcheck import (
       HunspellChecker,
       assert_is_valid_dictionary_language_or_filename,
-      looks_like_a_word,
+      looks_like_a_word_creator,
    )
 
    def txt_file_to_content(filename, encoding=None):
@@ -118,6 +118,7 @@ Public API interface
         languages,
         personal_dicts=None,
         negotiate_languages=False,
+        encoding=None,
         include_filename=True,
         include_line_number=True,
         include_word=True,
@@ -126,9 +127,81 @@ Public API interface
         include_text=False,
         include_error_number=False,
         include_near_misses=False,
-        looks_like_a_word=looks_like_a_word,
-        encoding=None,
+        digits_are_words=False,
+        words_can_contain_digits=True,
+        words_can_startswith_dash=True,
+        words_can_endswith_dash=True,
+        words_can_contain_dash=True,
    ):
+       """Text files spellchecker function.
+
+       Parameters
+       ----------
+
+       filenames : list
+         List of path globs to check.
+
+       languages : list
+         Languages to use excluding words from being considered mispelling
+         errors.
+
+       personal_dicts : list, optional
+         Personal dictionaries used to exclude certain words from being
+         considered mispelling errors.
+
+       negotiate_languages : bool, optional
+         If ``True``, you can pass territory codes as dictionary names, for
+         example ``"es"`` instead of ``"es_ES"``.
+
+       encoding : str, optional
+         Input encoding. If not defined, it will be autodetected by hunspell.
+
+       include_filename : bool, optional
+         Include the filename in which has been found a mispelling error.
+
+       include_line_number : bool, optional
+         Include the line number in which has been found a mispelling error.
+
+       include_word : bool, optional
+         Include the mispelled word in each mispelling error message.
+
+       include_word_line_index : bool, optional
+         Include the index of the caracter in which the mispelled word starts
+         in their line (starting at index 0).
+
+       include_line : bool, optional
+         Include the entire line where each mispelled word resides.
+
+       include_text : bool, optional
+         Include the full text in where the mispelled word resides.
+
+       include_error_number : bool, optional
+         Include the number of the error in yielded data. This could be useful
+         to avoid the need of define a counter.
+
+       include_near_misses : bool, optional
+         Include a list with the near misses for the mispelled word.
+
+       digits_are_words : bool, optional
+         If ``False``, values with all characters as digits will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_contain_digits : bool, optional
+         If ``False``, values with at least one digit character will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_startswith_dash : bool, optional
+         If ``False``, values starting with the ``-`` character will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_endswith_dash : bool, optional
+         If ``False``, values ending with the ``-`` character will not be
+         considered words, so they will not be checked for mispelling errors.
+
+       words_can_contain_dash : bool, optional
+         If ``False``, values containing the ``-`` character will not be
+         considered words, so they will not be checked for mispelling errors.
+       """
         assert_is_valid_dictionary_language_or_filename(
             languages,
             negotiate_languages=negotiate_languages,
@@ -146,7 +219,13 @@ Public API interface
             filename_contents,
             languages,
             personal_dicts=personal_dicts,
-            looks_like_a_word=looks_like_a_word,
+            looks_like_a_word=looks_like_a_word_creator(
+               digits_are_words=digits_are_words,
+               words_can_contain_digits=words_can_contain_digits,
+               words_can_startswith_dash=words_can_startswith_dash,
+               words_can_endswith_dash=words_can_endswith_dash,
+               words_can_contain_dash=words_can_contain_dash,
+            ),
             encoding=encoding,
         ).check(
             include_filename=include_filename,

@@ -12,14 +12,11 @@ from hunspellcheck.hunspell.dictionaries import (
     print_available_dictionaries,
 )
 from hunspellcheck.hunspell.version import get_hunspell_version
-from hunspellcheck.spellchecker import (
-    HunspellChecker,
-    looks_like_a_word,
-    render_hunspell_word_error,
-)
+from hunspellcheck.spellchecker import HunspellChecker, render_hunspell_word_error
+from hunspellcheck.word import looks_like_a_word_creator
 
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 __title__ = "hunspellcheck"
 __all__ = (
     "HunspellChecker",
@@ -32,7 +29,7 @@ __all__ = (
     "is_valid_dictionary_language_or_filename",
     "assert_is_valid_dictionary_language_or_filename",
     "list_available_dictionaries",
-    "looks_like_a_word",
+    "looks_like_a_word_creator",
     "print_available_dictionaries",
     "render_hunspell_word_error",
 )
