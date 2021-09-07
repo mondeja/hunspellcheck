@@ -19,7 +19,7 @@
 [pypi-link]: https://pypi.org/project/hunspellcheck
 [pypi-version-badge-link]: https://img.shields.io/pypi/v/hunspellcheck?logo=pypi&logoColor=white
 [pypi-pyversions-badge-link]: https://img.shields.io/pypi/pyversions/hunspellcheck?logo=python&logoColor=white
-[license-image]: https://img.shields.io/pypi/l/hunspellcheck?color=light-green&logo=gnu&logoColor=whiite
+[license-image]: https://img.shields.io/pypi/l/hunspellcheck?color=light-green&logo=freebsd&logoColor=whiite
 [license-link]: https://github.com/mondeja/hunspellcheck/blob/master/LICENSE
 
 [tests-image]: https://img.shields.io/github/workflow/status/mondeja/hunspellcheck/CI?logo=github&label=tests
