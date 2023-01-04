@@ -67,7 +67,7 @@ def hunspell_spellcheck(
 
     response = subprocess.run(
         command,
-        universal_newlines=True,
+        text=True,
         input=content,
         stdout=subprocess.PIPE,
         check=True,

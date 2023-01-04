@@ -28,7 +28,7 @@ def get_hunspell_version(hunspell=True, ispell=True):
     output = subprocess.run(
         ["hunspell", "--version"],
         stdout=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
 
     if previous_env_lang is None:

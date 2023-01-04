@@ -16,7 +16,7 @@ from hunspellcheck.spellchecker import HunspellChecker, render_hunspell_word_err
 from hunspellcheck.word import looks_like_a_word_creator
 
 
-__version__ = "0.0.8"
+__version__ = "0.1.0"
 __title__ = "hunspellcheck"
 __all__ = (
     "HunspellChecker",
