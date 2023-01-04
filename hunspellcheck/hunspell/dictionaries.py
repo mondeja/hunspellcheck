@@ -29,7 +29,7 @@ def gen_available_dictionaries(full_paths=False):
     output = subprocess.run(
         ["hunspell", "-D"],
         stderr=subprocess.PIPE,
-        universal_newlines=True,
+        text=True,
     )
 
     if previous_env_lang is None:

@@ -14,11 +14,11 @@ jobs:
     name: Documentation build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python v3.7
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.7
+          python-version: '3.10'
       - name: Install dependencies
         run: |
           sudo apt-get install hunspell \
@@ -36,5 +36,5 @@ jobs:
             -d _build/doctrees \
             -D language=en \
             . _build/html
-      - name: Show tree
+      - name: Show documentation tree
         run: tree docs/_build/html

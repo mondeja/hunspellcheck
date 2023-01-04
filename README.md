@@ -22,7 +22,7 @@
 [license-image]: https://img.shields.io/pypi/l/hunspellcheck?color=light-green&logo=freebsd&logoColor=whiite
 [license-link]: https://github.com/mondeja/hunspellcheck/blob/master/LICENSE
 
-[tests-image]: https://img.shields.io/github/workflow/status/mondeja/hunspellcheck/CI?logo=github&label=tests
+[tests-image]: https://img.shields.io/github/actions/workflow/status/mondeja/hunspellcheck/ci.yml?branch=master&logo=github&label=tests
 [tests-link]: https://github.com/mondeja/hunspellcheck/actions?query=workflow%3ACI
 [documentation-image]: https://img.shields.io/readthedocs/hunspellcheck?logo=read-the-docs&logoColor=white
 [documentation-link]: https://hunspellcheck.readthedocs.io

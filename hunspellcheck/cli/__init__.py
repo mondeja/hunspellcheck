@@ -139,11 +139,11 @@ def hunspellchecker_argument_parser(
             constructing the ``-l/--language`` option.
         negotiate_languages (bool): Enables the language negotiation. If this
             is enabled and the CLI consumer passes a locale code instead of
-            a full language name (for example `es` instead of `es_ES`),
-            hunspellcheck will convert `es` to a territorialized language
+            a full language name (for example ``es`` instead of ``es_ES``),
+            hunspellcheck will convert ``es`` to a territorialized language
             dictionary name available using the function
             :py:meth:`babel.core.Locale.negotiate`. If is disabled, a language
-            dictionary passed as locale code like `es` will be considered
+            dictionary passed as locale code like ``es`` will be considered
             invalid.
         personal_dicts (bool): Include the ``-p/--personal-dict`` option inside
             the argument parser.
@@ -169,7 +169,7 @@ def hunspellchecker_argument_parser(
             :py:meth:`argparse.ArgumentParser.add_argument`.
         digits_are_words_kwargs (dict): Optional kwargs which override default
             kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
-            building the ``--digits-are-words` option.
+            building the ``--digits-are-words`` option.
         words_not_contain_digits (bool): Include the option
             ``--words-not-contain-digits`` which when passed in a CLI, the
             words that contain digits will be ignored mispellchecking errors.
@@ -179,7 +179,7 @@ def hunspellchecker_argument_parser(
         words_not_contain_digits_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--words-not-contain-digits` option.
+            ``--words-not-contain-digits`` option.
         words_not_startswith_dash (bool): Include the option
             ``--words-not-startswith-dash`` which when passed in a CLI, the
             words starting with character ``"-" `` will be ignored
@@ -190,7 +190,7 @@ def hunspellchecker_argument_parser(
         words_not_startswith_dash_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--words-not-startswith-dash` option.
+            ``--words-not-startswith-dash`` option.
         words_not_endswith_dash (bool): Include the option
             ``--words-not-endswith-dash`` which when passed in a CLI, the
             words ending with character ``"-" `` will be ignored
@@ -201,7 +201,7 @@ def hunspellchecker_argument_parser(
         words_not_endswith_dash_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--words-not-endswith-dash` option.
+            ``--words-not-endswith-dash`` option.
         words_not_contain_dash (bool): Include the option
             ``--words-not-contain-dash`` which when passed in a CLI, the
             words containing character ``"-" `` will be ignored mispellchecking
@@ -212,7 +212,7 @@ def hunspellchecker_argument_parser(
         words_not_contain_dash_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--words-not-contain-dash` option.
+            ``--words-not-contain-dash`` option.
         words_not_contain_two_upper (bool): Include the option
             ``--words-not-contain-two-upper`` which when passed in a CLI, the
             words containing two uppercase letters or mote will be ignored
@@ -223,7 +223,7 @@ def hunspellchecker_argument_parser(
         words_not_contain_two_upper_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--words-not-contain-two-upper` option.
+            ``--words-not-contain-two-upper`` option.
         no_include_filename (bool): Include the option
             ``--no-include-filename`` which when passed in a CLI, the path to
             files in which mispelling errors are found are not shown in
@@ -234,7 +234,7 @@ def hunspellchecker_argument_parser(
         no_include_filename_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--no-include-filename` option.
+            ``--no-include-filename`` option.
         no_include_line_number (bool): Include the option
             ``--no-include-line-number`` which when passed in a CLI, the number
             of lines in which mispelling errors are found are not shown in
@@ -245,7 +245,7 @@ def hunspellchecker_argument_parser(
         no_include_line_number_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--no-include-line-number` option.
+            ``--no-include-line-number`` option.
         no_include_word (bool): Include the option
             ``--no-include-word`` which when passed in a CLI, the words
             in which mispelling errors are found are not shown in the output.
@@ -255,7 +255,7 @@ def hunspellchecker_argument_parser(
         no_include_word_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--no-include-word` option.
+            ``--no-include-word`` option.
         no_include_word_line_index (bool): Include the option
             ``--no-include-word-line-index`` which when passed in a CLI, the
             index of the mispelled words inside their lines in which mispelling
@@ -266,7 +266,7 @@ def hunspellchecker_argument_parser(
         no_include_word_line_index_kwargs (dict): Optional kwargs which
             override default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--no-include-word-line-index` option.
+            ``--no-include-word-line-index`` option.
         include_line (bool): Include the option ``--include-line`` which when
             passed in a CLI, the line of the mispelled words in which
             mispelling errors are found are shown in the output.
@@ -275,7 +275,7 @@ def hunspellchecker_argument_parser(
             :py:meth:`argparse.ArgumentParser.add_argument`.
         include_line_kwargs (dict): Optional kwargs which override default
             kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
-            building the ``--include-line` option.
+            building the ``--include-line`` option.
         include_text (bool): Include the option ``--include-text`` which when
             passed in a CLI, the text in which reside found mispelled words
             is shown in the output.
@@ -284,7 +284,7 @@ def hunspellchecker_argument_parser(
             :py:meth:`argparse.ArgumentParser.add_argument`.
         include_text_kwargs (dict): Optional kwargs which override default
             kwargs passed to :py:meth:`argparse.ArgumentParser.add_argument`
-            building the ``--include-text` option.
+            building the ``--include-text`` option.
         include_error_number (bool): Include the option
             ``--include-error-number`` which when passed in a CLI, the number
             of each error is shown in the output.
@@ -294,7 +294,7 @@ def hunspellchecker_argument_parser(
         include_error_number_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--include-error-number` option.
+            ``--include-error-number`` option.
         include_near_misses (bool): Include the option
             ``--include-near-misses`` which when passed in a CLI, some Hunspell
             suggestions will be shown for each mispelled word in the report.
@@ -304,9 +304,10 @@ def hunspellchecker_argument_parser(
         include_near_misses_kwargs (dict): Optional kwargs which override
             default kwargs passed to
             :py:meth:`argparse.ArgumentParser.add_argument` building the
-            ``--include-near-misses` option.
+            ``--include-near-misses`` option.
 
     Examples:
+
         >>> import argparse
         >>>
         >>> parser = argparse.ArgumentParser()
@@ -317,6 +318,7 @@ def hunspellchecker_argument_parser(
         >>> opts = parser.parse_args(["--language", "es"])
         >>> print(opts)
         Namespace(languages=["es_ES"])
+
     """
     if version:
         version_string = render_version_template(
